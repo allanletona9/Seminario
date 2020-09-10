@@ -13,5 +13,27 @@ namespace TiendaVirtual
         {
 
         }
+
+        protected void btnIngresar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(txtUsuario.Text.Length == 0)
+                {
+                    txtUsuario.Focus();
+                    return;
+                }
+
+                if(txtPassword.Text.Length == 0)
+                {
+                    txtPassword.Focus();
+                    return;
+                }
+
+            }catch(Exception ex)
+            {
+                return;
+            }
+        }
     }
 }
