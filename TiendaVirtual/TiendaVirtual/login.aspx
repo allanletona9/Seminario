@@ -26,23 +26,22 @@
 </head>
 <body>
     <form id="form1" runat="server">
-<h1>Material Login Form</h1>
+<h1>Arcadia SportsWear</h1>
     <div class=" w3l-login-form">
-        <h2>Login Here</h2>
-        <form action="#" method="POST">
-
+        <h2>Iniciar Sesion</h2>
             <div class=" w3l-form-group">
-                <label>Username:</label>
+                <label>Usuario:</label>
+                
                 <div class="group">
                     <i class="fas fa-user"></i>
-                    <input type="text" class="form-control" placeholder="Username" required="required" />
+                    <asp:TextBox runat="server" ID="txtUsuario" CssClass="form-control" placeholder="Usuario"></asp:TextBox>
                 </div>
             </div>
             <div class=" w3l-form-group">
-                <label>Password:</label>
+                <label>Contrasena:</label>
                 <div class="group">
                     <i class="fas fa-unlock"></i>
-                    <input type="password" class="form-control" placeholder="Password" required="required" />
+                    <asp:TextBox runat="server" CssClass="form-control" ID="txtPassword" placeholder="Contrasena" TextMode="Password"></asp:TextBox>
                 </div>
             </div>
             <div class="forgot">
@@ -50,8 +49,8 @@
                 <p><input type="checkbox">Remember Me</p>
             </div>
             <button type="submit">Login</button>
-        </form>
-        <p class=" w3l-register-p">Don't have an account?<a href="#" class="register"> Register</a></p>
+            <asp:Button runat="server" Text="Ingresar" ID="btnIngresar" OnClick="btnIngresar_Click"/>
+        <p class=" w3l-register-p">No tienes una cuenta?<a href="#" class="register"> Registrate</a></p>
     </div>
     <footer>
         <p class="copyright-agileinfo"> &copy; 2018 Material Login Form. All Rights Reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
