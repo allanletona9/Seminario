@@ -6,23 +6,25 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>Login</title>
-    <!-- meta tags -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="Art Sign Up Form Responsive Widget, Audio and Video players, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, 
-		Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design"
-    />
-    <!-- /meta tags -->
-    <!-- custom style sheet -->
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <!-- /custom style sheet -->
-    <!-- fontawesome css -->
     <link href="css/fontawesome-all.css" rel="stylesheet" />
-    <!-- /fontawesome css -->
-    <!-- google fonts-->
     <link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
-    <!-- /google fonts-->
+    <style type="text/css">
+        .btnIngresar{
+            background: #fc3955;
+            color: #ffffff;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            padding: 12px 60px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 6px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -45,15 +47,14 @@
                 </div>
             </div>
             <div class="forgot">
-                <a href="#">Forgot Password?</a>
-                <p><input type="checkbox">Remember Me</p>
+                <%--<a href="#">Forgot Password?</a>--%>
+                <%--<p><input type="checkbox">Remember Me</p>--%>
             </div>
-            <button type="submit">Login</button>
-            <asp:Button runat="server" Text="Ingresar" ID="btnIngresar" OnClick="btnIngresar_Click"/>
+            <asp:Button runat="server" Text="Ingresar" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btnIngresar"/>
         <p class=" w3l-register-p">No tienes una cuenta?<a href="#" class="register"> Registrate</a></p>
     </div>
     <footer>
-        <p class="copyright-agileinfo"> &copy; 2018 Material Login Form. All Rights Reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+        
     </footer>
     </form>
 </body>
