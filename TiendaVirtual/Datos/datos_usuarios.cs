@@ -30,6 +30,7 @@ namespace Datos
                 {
                     obtencion_usuario.usuario = Convert.ToString(usuario.Rows[0]["usuario"]);
                     obtencion_usuario.password = Convert.ToString(usuario.Rows[0]["password"]);
+                    obtencion_usuario.correo = Convert.ToString(usuario.Rows[0]["correo"]);
                     obtencion_usuario.tipousuario = Convert.ToString(usuario.Rows[0]["tipousuario"]);
                     obtencion_usuario.estado = Convert.ToString(usuario.Rows[0]["estado"]);
                 }

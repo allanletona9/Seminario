@@ -14,6 +14,7 @@ namespace Entidades
         string _database;
         string _tipousuario;
         string _estadousuario;
+        string _correo;
 
         public string usuario
         {
@@ -84,6 +85,17 @@ namespace Entidades
             set
             {
                 _estadousuario = value;
+            }
+        }
+        public string correo
+        {
+            get
+            {
+                return _correo;
+            }
+            set
+            {
+                _correo = value;
             }
         }
 
