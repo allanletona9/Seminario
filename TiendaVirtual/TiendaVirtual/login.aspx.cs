@@ -39,7 +39,7 @@ namespace TiendaVirtual
 
                 cn = logica_usuarios.obtenerUsuario(new conexion_entidad {database= database, server = server, usuario = txtUsuario.Text, password = txtPassword.Text });
 
-                if(cn.password == txtPassword.Text && cn.usuario == txtUsuario.Text)
+                if( (cn.password == txtPassword.Text && cn.usuario == txtUsuario.Text) || (cn.password == txtPassword.Text && cn.correo == txtUsuario.Text)) 
                 {
                     if(Convert.ToInt32(cn.estado) != 0)
                     {

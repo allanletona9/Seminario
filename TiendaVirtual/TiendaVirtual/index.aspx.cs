@@ -15,19 +15,16 @@ namespace TiendaVirtual
         {
             try
             {
-                if (Session.IsNewSession)
+                if (Session["sesion_usuario"].ToString() == "" && Session["tipo_usuario"].ToString() == "")
                 {
-                    Session.Clear();
-                    Session.Abandon();
-                    Session.RemoveAll();
-                    Response.Redirect("login.aspx");
+                    Session["sesion_usuario"] = "Invitado";
+                    Session["tipo_usuario"] = "0";
                 }
-
             }
-            catch (Exception err)
+            catch
             {
-                Console.WriteLine("Sesion expirada: " + err.Message);
-                Response.Redirect("login.aspx");
+                Session["sesion_usuario"] = "Invitado";
+                Session["tipo_usuario"] = "0";
             }
         }
     }

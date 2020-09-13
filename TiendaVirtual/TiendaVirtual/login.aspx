@@ -36,7 +36,7 @@
                 
                 <div class="group">
                     <i class="fas fa-user"></i>
-                    <asp:TextBox runat="server" ID="txtUsuario" CssClass="form-control" placeholder="Usuario"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="txtUsuario" CssClass="form-control" placeholder="Usuario o Correo Electronico"></asp:TextBox>
                 </div>
             </div>
             <div class=" w3l-form-group">
