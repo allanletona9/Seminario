@@ -114,6 +114,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="css\estilos_paneladministrador.css" />
     <Content Include="css\fontawesome-all.css" />
     <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
@@ -132,9 +133,16 @@
     <Content Include="fonts\lucida_bright_demi.ttf" />
     <Content Include="fonts\lucida_bright_regular.ttf" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="images\bg_1.jpg" />
     <Content Include="images\cover4.jpg" />
+    <Content Include="images\logo.jpg" />
     <Content Include="index.aspx" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\popper.js" />
     <Content Include="login.aspx" />
+    <Content Include="panel_administrador.aspx" />
     <Content Include="plugins\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
     <Content Include="plugins\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
     <Content Include="plugins\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
@@ -382,6 +390,13 @@
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="obtener_conexion.cs" />
+    <Compile Include="panel_administrador.aspx.cs">
+      <DependentUpon>panel_administrador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="panel_administrador.aspx.designer.cs">
+      <DependentUpon>panel_administrador.aspx</DependentUpon>
+    </Compile>
     <Compile Include="producto.aspx.cs">
       <DependentUpon>producto.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -12,6 +12,8 @@ namespace Entidades
         string _password;
         string _server;
         string _database;
+        string _tipousuario;
+        string _estadousuario;
 
         public string usuario
         {
@@ -60,5 +62,31 @@ namespace Entidades
                 _database = value;
             }
         }
+
+        public string tipousuario
+        {
+            get
+            {
+                return _tipousuario;
+            }
+            set
+            {
+                _tipousuario = value;
+            }
+        }
+
+        public string estado
+        {
+            get
+            {
+                return _estadousuario;
+            }
+            set
+            {
+                _estadousuario = value;
+            }
+        }
+
+
     }
 }
