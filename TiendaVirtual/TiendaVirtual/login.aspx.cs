@@ -75,5 +75,10 @@ namespace TiendaVirtual
                 return;
             }
         }
+
+        protected void lnkRegistrarUsuario_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("registrar_usuario.aspx");
+        }
     }
 }

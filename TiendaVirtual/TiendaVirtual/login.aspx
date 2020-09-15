@@ -27,7 +27,13 @@
     </style>
 </head>
 <body>
+    <script type="text/javascript">
+        function registrarUsuario() {
+            document.getElementById("lnkRegistrarUsuario").click();
+        }
+    </script>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 <h1>Arcadia SportsWear</h1>
     <div class=" w3l-login-form">
         <h2>Iniciar Sesion</h2>
@@ -51,11 +57,13 @@
                 <%--<p><input type="checkbox">Remember Me</p>--%>
             </div>
             <asp:Button runat="server" Text="Ingresar" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btnIngresar"/>
-        <p class=" w3l-register-p">No tienes una cuenta?<a href="#" class="register"> Registrate</a></p>
+        <p class=" w3l-register-p">No tienes una cuenta?<a href="#" class="register" onclick="registrarUsuario();"> Registrate</a></p>
     </div>
-    <footer>
-        
-    </footer>
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <asp:LinkButton runat="server" ID="lnkRegistrarUsuario" ClientIDMode="Static" OnClick="lnkRegistrarUsuario_Click"></asp:LinkButton>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </form>
 </body>
 </html>
