@@ -45,5 +45,39 @@ namespace Datos
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static bool insertar_usuario(conexion_entidad cn_conexion ,usuarios user)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = "+ cn_conexion.server+";database="+ cn_conexion.database+";Integrated Security=True");
+
+            SqlCommand sqlInsertar = new SqlCommand("sp_insertarUsuario", sqlConexion);
+            sqlInsertar.CommandType = CommandType.StoredProcedure;
+
+            sqlInsertar.Parameters.AddWithValue("@idusuario", user.usuario);
+            sqlInsertar.Parameters.AddWithValue("@idtipousuario", user.tipousuario);
+            sqlInsertar.Parameters.AddWithValue("@correo", user.correo);
+            sqlInsertar.Parameters.AddWithValue("@password", user.password);
+
+            sqlConexion.Open();
+            sqlInsertar.Connection = sqlConexion;
+
+            try
+            {
+                sqlInsertar.ExecuteNonQuery();
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }

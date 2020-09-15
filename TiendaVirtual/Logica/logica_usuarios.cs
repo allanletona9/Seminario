@@ -20,5 +20,17 @@ namespace Logica
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+        
+        public static bool insertar_usuario(conexion_entidad cn_conexion, usuarios user)
+        {
+            try
+            {
+                return datos_usuarios.insertar_usuario(cn_conexion, user);
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
     }
 }
