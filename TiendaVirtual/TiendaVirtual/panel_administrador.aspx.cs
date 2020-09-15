@@ -21,12 +21,24 @@ namespace TiendaVirtual
                     Response.Redirect("login.aspx");
                 }
 
+                NombreUsuario.Text = Session["sesion_usuario"].ToString();
+
+                
+
             }
             catch (Exception err)
             {
                 Console.WriteLine("Sesion expirada: " + err.Message);
                 Response.Redirect("login.aspx");
             }
+        }
+
+        protected void lnkCerrarSesion_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+            Response.Redirect("login.aspx");
         }
     }
 }
