@@ -63,12 +63,12 @@
 				
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<asp:TextBox runat="server" ID="txtPassword" CssClass="input100" placeholder="Contraseña"></asp:TextBox>
+						<asp:TextBox runat="server" ID="txtPassword" CssClass="input100" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Repeat Password is required">
-						<asp:TextBox runat="server" ID="txtConfirmarPassword" CssClass="input100" placeholder="Confirmar Contraseña"></asp:TextBox>
+						<asp:TextBox runat="server" ID="txtConfirmarPassword" CssClass="input100" placeholder="Confirmar Contraseña" TextMode="Password"></asp:TextBox>
 						<span class="focus-input100"></span>
 					</div>
 
