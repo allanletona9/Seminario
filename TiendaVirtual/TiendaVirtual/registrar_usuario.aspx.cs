@@ -21,12 +21,12 @@ namespace TiendaVirtual
         {
             usuarios user = new usuarios();
 
-            if(txtPassword.Text != txtConfirmarPassword.Text)
+            if (txtPassword.Text != txtConfirmarPassword.Text)
             {
                 return;
             }
 
-            string nombre_usuario = txtNombre.Text + "." + txtApellido.Text;
+            string nombre_usuario = (txtNombre.Text + "." + txtApellido.Text).ToLower();
 
             user.usuario = nombre_usuario;
             user.correo = txtEmail.Text;
@@ -39,7 +39,18 @@ namespace TiendaVirtual
             cn.database = database;
             cn.server = server;
 
-            logica_usuarios.insertar_usuario(cn, user);
+            bool insert = logica_usuarios.insertar_usuario(cn, user);
+
+            if (insert)
+            {
+                txtNombre.Text = "";
+                txtApellido.Text = "";
+                txtEmail.Text = "";
+                txtPassword.Text = "";
+                txtConfirmarPassword.Text = "";
+                Response.Redirect("login.aspx");
+            }
+
 
         }
 
