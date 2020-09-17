@@ -114,8 +114,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="css\datatables.css" />
+    <Content Include="css\datatables.min.css" />
     <Content Include="css\estilos_paneladministrador.css" />
     <Content Include="css\fontawesome-all.css" />
+    <Content Include="css\jquery.dataTables.min.css" />
     <Content Include="css\main_registrouser.css" />
     <Content Include="css\style.css" />
     <Content Include="css\util_registrouser.css" />
@@ -150,6 +153,10 @@
     <Content Include="images\logo.jpg" />
     <Content Include="index.aspx" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\datatables.js" />
+    <Content Include="js\datatables.min.js" />
+    <Content Include="js\jquery-3.5.1.js" />
+    <Content Include="js\jquery.dataTables.min.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\main.js" />
     <Content Include="js\popper.js" />

@@ -209,22 +209,22 @@ iframe {
   z-index: 1;
 }
 
-.login100-more::before {
-  content: "";
-  display: block;
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: #e8519e;
-  background: -webkit-linear-gradient(bottom, #e8519e, #c77ff2);
-  background: -o-linear-gradient(bottom, #e8519e, #c77ff2);
-  background: -moz-linear-gradient(bottom, #e8519e, #c77ff2);
-  background: linear-gradient(bottom, #e8519e, #c77ff2);
-  opacity: 0.8;
-}
+    .login100-more::before {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #CACACA;
+        background: -webkit-linear-gradient(bottom, #CACACA, #CACACA);
+        background: -o-linear-gradient(bottom, #CACACA, #CACACA);
+        background: -moz-linear-gradient(bottom, #CACACA, #CACACA);
+        background: linear-gradient(bottom, #CACACA, #CACACA);
+        opacity: 0.8;
+    }
 
 /*==================================================================
 [ Form ]*/

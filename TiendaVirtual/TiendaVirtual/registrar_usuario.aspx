@@ -60,8 +60,6 @@
 						<span class="focus-input100"></span>
 					</div>
 
-				
-
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
 						<asp:TextBox runat="server" ID="txtPassword" CssClass="input100" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
 						<span class="focus-input100"></span>

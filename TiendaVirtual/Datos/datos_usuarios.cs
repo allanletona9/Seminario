@@ -79,5 +79,32 @@ namespace Datos
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static DataTable obtieneUsuarios(conexion_entidad cn_conexion)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+
+            SqlCommand sqlObtieneUsuarios = new SqlCommand("sp_obtieneUsuarios", sqlConexion);
+            sqlObtieneUsuarios.CommandType = CommandType.StoredProcedure;
+
+            sqlObtieneUsuarios.Parameters.AddWithValue("@idusuario", Convert.IsDBNull(cn_conexion.usuario) ? Convert.DBNull : cn_conexion.usuario);
+
+            try
+            {
+                DataTable dtUsers = new DataTable("pgps_reporte_unidades");
+                SqlDataAdapter sqlUsuarios = new SqlDataAdapter();
+                sqlUsuarios.SelectCommand = sqlObtieneUsuarios;
+                sqlUsuarios.Fill(dtUsers);
+
+                sqlConexion.Close();
+
+                return dtUsers;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }
