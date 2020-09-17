@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entidades;
 using Datos;
+using System.Data;
 
 namespace Logica
 {
@@ -27,6 +28,18 @@ namespace Logica
             {
                 return datos_usuarios.insertar_usuario(cn_conexion, user);
             }catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+        public static DataTable obtieneUsuarios(conexion_entidad cn_conexion)
+        {
+            try
+            {
+                return datos_usuarios.obtieneUsuarios(cn_conexion);
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex.InnerException);
             }

@@ -10,13 +10,115 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/estilos_paneladministrador.css" />
-    <link rel="stylesheet" type="text/css" href="css/css_formularios.css" />
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/jquery-3.5.1.js" type="text/javascript"></script>
+     
+    <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+
 </head>
 <body>
     <script type="text/javascript">
+        var usuarios;
+        var tablaUsuarios;
+
         function cerrarSesion() {
             document.getElementById("lnkCerrarSesion").click();
         }
+
+        function mostrarUsuarios() {
+            document.getElementById("usuarios").style.display = "block";
+            usuarios();
+        }
+
+        $(document).ready(function () {
+
+            usuarios = function () {
+                tablaUsuarios = $('#tblUsuarios').DataTable({
+                    ajax: {
+                        url: '<%= ResolveUrl("panel_administrador.aspx/obtenerUsuarios") %>',
+                        type: 'POST',
+                        contentType: "application/json",
+                        dataSrc: function (data) {
+                            return $.parseJSON(data.d);
+                        }
+                    },
+                    columns: [
+                        { "data": "idUSUARIO" },
+                        { "data": "descripcion" },
+                        { "data": 'correo' },
+                        { "data": 'estado' },
+                    ],
+                    "columnDefs": [
+                        {
+                            targets: [1],
+                            orderable: false,
+                            title: "Usuario",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.idUSUARIO + "</span>";
+                            },
+                        },
+
+                        {
+                            targets: [2],
+                            orderable: false,
+                            title: "Tipo Cliente",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.descripcion + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [3],
+                            orderable: false,
+                            title: "Correo",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.correo + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [4],
+                            orderable: false,
+                            title: "Estado",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.estado + "</span>";
+                            },
+                        },
+                        {
+                            targets: [1, 2, 3, 4],
+                            visible: true,
+                        },
+                        {
+                            targets: '_all',
+                            visible: false
+                        },
+
+                    ]
+                });
+                //$.ajax({
+                //    url: "panel_administrador.aspx/obtenerUsuarios",
+                //    method: "POST",
+                //    contentType: "application/json; charset=utf-8",
+                //    dataType: "json",
+                //    dataSrc: function (data) {
+                //        return $.parseJSON(data.d)
+                //    },
+                //    success: function (data) {
+                //        console.log(data.d);
+                        
+
+
+                //        /*Success*/
+                //    }
+
+                //});
+            };
+
+        });
     </script>
     <form id="form1" runat="server">
 
@@ -50,7 +152,7 @@
             <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
           </li>--%>
                     <li>
-                        <a href="#"><span class="fa fa-users"></span>   Usuarios</a>
+                        <a href="#" onclick="mostrarUsuarios();"><span class="fa fa-users"></span>   Usuarios</a>
                     </li>
                     <li>
                         <a href="#" onclick="cerrarSesion();"><span class="fa fa-sign-out"></span>  Salir</a>
@@ -67,6 +169,13 @@
 
             <div id="content" class="p-4 p-md-5 pt-5">
                 <h2 class="mb-4">Sidebar #09</h2>
+
+                <div id="usuarios" style="display:none">
+                    <h1>Mantenimiento de Usuarios</h1>
+                    <table id="tblUsuarios">
+
+                    </table>
+                </div>
                 <%--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--%>
             </div>
@@ -84,9 +193,7 @@
         </asp:UpdatePanel>
     </form>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+
+
 </body>
 </html>
