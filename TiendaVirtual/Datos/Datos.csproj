@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="datos_articulos.cs" />
+    <Compile Include="datos_clientes.cs" />
+    <Compile Include="datos_pedidos.cs" />
     <Compile Include="datos_usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

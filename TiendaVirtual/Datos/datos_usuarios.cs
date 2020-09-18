@@ -91,7 +91,7 @@ namespace Datos
 
             try
             {
-                DataTable dtUsers = new DataTable("pgps_reporte_unidades");
+                DataTable dtUsers = new DataTable("obtiene_usuarios");
                 SqlDataAdapter sqlUsuarios = new SqlDataAdapter();
                 sqlUsuarios.SelectCommand = sqlObtieneUsuarios;
                 sqlUsuarios.Fill(dtUsers);
