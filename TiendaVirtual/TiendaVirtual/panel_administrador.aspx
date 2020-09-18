@@ -20,15 +20,69 @@
 </head>
 <body>
     <script type="text/javascript">
+        var micuenta;
+        var clientes;
+        var articulos;
+        var pedidos;
         var usuarios;
+
+        var tablaMiCuenta;
+        var tablaClientes;
+        var tablaArticulos;
+        var tablaPedidos;
         var tablaUsuarios;
 
         function cerrarSesion() {
             document.getElementById("lnkCerrarSesion").click();
         }
 
+        function mostrarMiCuenta() {
+            document.getElementById("micuenta").style.display = "block";
+
+            document.getElementById("clientes").style.display = "none";
+            document.getElementById("articulos").style.display = "none";
+            document.getElementById("pedidos").style.display = "none";
+            document.getElementById("usuarios").style.display = "none";
+            micuenta();
+        }
+
+        function mostrarClientes() {
+            document.getElementById("clientes").style.display = "block";
+
+            document.getElementById("micuenta").style.display = "none";
+            document.getElementById("articulos").style.display = "none";
+            document.getElementById("pedidos").style.display = "none";
+            document.getElementById("usuarios").style.display = "none";
+            clientes();
+        }
+
+        function mostrarArticulos() {
+            document.getElementById("articulos").style.display = "block";
+
+            document.getElementById("micuenta").style.display = "none";
+            document.getElementById("clientes").style.display = "none";
+            document.getElementById("pedidos").style.display = "none";
+            document.getElementById("usuarios").style.display = "none";
+            articulos();
+        }
+
+        function mostrarPedidos() {
+            document.getElementById("pedidos").style.display = "block";
+
+            document.getElementById("micuenta").style.display = "none";
+            document.getElementById("clientes").style.display = "none";
+            document.getElementById("articulos").style.display = "none";
+            document.getElementById("usuarios").style.display = "none";
+            pedidos();
+        }
+
         function mostrarUsuarios() {
             document.getElementById("usuarios").style.display = "block";
+
+            document.getElementById("micuenta").style.display = "none";
+            document.getElementById("clientes").style.display = "none";
+            document.getElementById("articulos").style.display = "none";
+            document.getElementById("pedidos").style.display = "none";
             usuarios();
         }
 
@@ -44,6 +98,7 @@
                             return $.parseJSON(data.d);
                         }
                     },
+                    destroy: true,
                     columns: [
                         { "data": "idUSUARIO" },
                         { "data": "descripcion" },
@@ -89,6 +144,15 @@
                             },
                         },
                         {
+                            "targets": [5],
+                            orderable: false,
+
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span><a href='#'>Editar</a></span>";
+                            },
+                        },
+                        {
                             targets: [1, 2, 3, 4],
                             visible: true,
                         },
@@ -99,23 +163,281 @@
 
                     ]
                 });
-                //$.ajax({
-                //    url: "panel_administrador.aspx/obtenerUsuarios",
-                //    method: "POST",
-                //    contentType: "application/json; charset=utf-8",
-                //    dataType: "json",
-                //    dataSrc: function (data) {
-                //        return $.parseJSON(data.d)
-                //    },
-                //    success: function (data) {
-                //        console.log(data.d);
-                        
+            };
 
+            micuenta = function () {
+                alert("mi cuenta");
+            };
 
-                //        /*Success*/
-                //    }
+            clientes = function () {
+                tablaClientes = $('#tblClientes').DataTable({
+                    ajax: {
+                        url: '<%= ResolveUrl("panel_administrador.aspx/obtenerClientes") %>',
+                        type: 'POST',
+                        contentType: "application/json",
+                        dataSrc: function (data) {
+                            return $.parseJSON(data.d);
+                        }
+                    },
+                    destroy: true,
+                    columns: [
+                        { "data": "idcliente" },
+                        { "data": "nombre" },
+                        { "data": 'apellido' },
+                        { "data": 'telefono' },
+                        { "data": 'email' },
+                        { "data": 'estado' },
+                    ],
+                    "columnDefs": [
+                        {
+                            targets: [1],
+                            orderable: false,
+                            title: "Id Cliente",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.idcliente + "</span>";
+                            },
+                        },
 
-                //});
+                        {
+                            targets: [2],
+                            orderable: false,
+                            title: "Nombre",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.nombre + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [3],
+                            orderable: false,
+                            title: "Apellido",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.apellido + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [4],
+                            orderable: false,
+                            title: "Telefono",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.telefono + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [5],
+                            orderable: false,
+                            title: "Email",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.email + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [6],
+                            orderable: false,
+                            title: "Estado",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.estado + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [7],
+                            orderable: false,
+
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span><a href='#'>Editar</a></span>";
+                            },
+                        },
+                        {
+                            targets: [1, 2, 3, 4, 5, 6, 7],
+                            visible: true,
+                        },
+                        {
+                            targets: '_all',
+                            visible: false
+                        },
+
+                    ]
+                });
+            };
+
+            articulos = function () {
+                tablaArticulos = $('#tblArticulos').DataTable({
+                    ajax: {
+                        url: '<%= ResolveUrl("panel_administrador.aspx/obtenerArticulos") %>',
+                        type: 'POST',
+                        contentType: "application/json",
+                        dataSrc: function (data) {
+                            return $.parseJSON(data.d);
+                        }
+                    },
+                    destroy: true,
+                    columns: [
+                        { "data": "idarticulo" },
+                        { "data": "nombre" },
+                        { "data": 'descripcion' },
+                        { "data": 'ruta_imagen' },
+                        { "data": 'stock' },
+                        { "data": 'estado' },
+                    ],
+                    "columnDefs": [
+                        {
+                            targets: [1],
+                            orderable: false,
+                            title: "Id Articulo",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.idarticulo + "</span>";
+                            },
+                        },
+
+                        {
+                            targets: [2],
+                            orderable: false,
+                            title: "Nombre",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.nombre + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [3],
+                            orderable: false,
+                            title: "Descripcion",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.descripcion + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [4],
+                            orderable: false,
+                            title: "Ruta Imagen",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.ruta_imagen + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [5],
+                            orderable: false,
+                            title: "Stock",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.stock + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [6],
+                            orderable: false,
+                            title: "Estado",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.estado + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [7],
+                            orderable: false,
+
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span><a href='#'>Editar</a></span>";
+                            },
+                        },
+                        {
+                            targets: [1, 2, 3, 4, 5, 6, 7],
+                            visible: true,
+                        },
+                        {
+                            targets: '_all',
+                            visible: false
+                        },
+
+                    ]
+                });
+            };
+
+            pedidos = function () {
+                tablaPedidos = $('#tblPedidos').DataTable({
+                    ajax: {
+                        url: '<%= ResolveUrl("panel_administrador.aspx/obtenerPedidos") %>',
+                        type: 'POST',
+                        contentType: "application/json",
+                        dataSrc: function (data) {
+                            return $.parseJSON(data.d);
+                        }
+                    },
+                    destroy: true,
+                    columns: [
+                        { "data": "idPEDIDO" },
+                        { "data": "fechaPedido" },
+                        { "data": 'nombre' },
+                        { "data": 'direccion' },
+                    ],
+                    "columnDefs": [
+                        {
+                            targets: [1],
+                            orderable: false,
+                            title: "No. Pedido",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.idPEDIDO + "</span>";
+                            },
+                        },
+
+                        {
+                            targets: [2],
+                            orderable: false,
+                            title: "Fecha Pedido",
+                            width: "20%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.fechaPedido + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [3],
+                            orderable: false,
+                            title: "Nombre",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.nombre + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [4],
+                            orderable: false,
+                            title: "Direccion",
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span>" + row.direccion + "</span>";
+                            },
+                        },
+                        {
+                            "targets": [5],
+                            orderable: false,
+
+                            width: "10%",
+                            render: function (data, type, row, meta) {
+                                return "<span><a href='#'>Editar</a></span>";
+                            },
+                        },
+                        {
+                            targets: [1, 2, 3, 4],
+                            visible: true,
+                        },
+                        {
+                            targets: '_all',
+                            visible: false
+                        },
+
+                    ]
+                });
             };
 
         });
@@ -137,16 +459,16 @@
                 </div>
                 <ul class="list-unstyled components mb-5">
                     <li class="active">
-                        <a href="#"><span class="fa fa-user-circle-o"></span>   Mi Cuenta</a>
+                        <a href="#" onclick="mostrarMiCuenta();"><span class="fa fa-user-circle-o"></span>   Mi Cuenta</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-address-book"></span>    Clientes</a>
+                        <a href="#" onclick="mostrarClientes();"><span class="fa fa-address-book"></span>    Clientes</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-gift"></span>    Articulos</a>
+                        <a href="#" onclick="mostrarArticulos();"><span class="fa fa-gift"></span>    Articulos</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-shopping-cart"></span>   Pedidos</a>
+                        <a href="#" onclick="mostrarPedidos();"><span class="fa fa-shopping-cart"></span>   Pedidos</a>
                     </li>
                     <%--<li>
             <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
@@ -168,12 +490,33 @@
             </asp:Panel>
 
             <div id="content" class="p-4 p-md-5 pt-5">
-                <h2 class="mb-4">Sidebar #09</h2>
+                 <div id="micuenta" style="display:none">
+                    <h1>Mi Cuenta</h1>
+                    <%--<table id="tblUsuarios">
+                    </table>--%>
+                </div>
+
+                 <div id="clientes" style="display:none">
+                    <h1>Mantenimiento de Clientes</h1>
+                    <table id="tblClientes">
+                    </table>
+                </div>
+
+                 <div id="articulos" style="display:none">
+                    <h1>Mantenimiento de Articulos</h1>
+                    <table id="tblArticulos">
+                    </table>
+                </div>
+
+                <div id="pedidos" style="display:none">
+                    <h1>Pedidos</h1>
+                    <table id="tblPedidos">
+                    </table>
+                </div>
 
                 <div id="usuarios" style="display:none">
                     <h1>Mantenimiento de Usuarios</h1>
                     <table id="tblUsuarios">
-
                     </table>
                 </div>
                 <%--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>

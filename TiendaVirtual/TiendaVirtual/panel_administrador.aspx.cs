@@ -88,5 +88,131 @@ namespace TiendaVirtual
             }
 
         }
+
+        [WebMethod]
+        public static string obtenerClientes()
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                DataTable dt = logica_clientes.obtieneClientes(cn);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
+
+        [WebMethod]
+        public static string obtenerArticulos()
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                DataTable dt = logica_articulos.obtieneArticulos(cn);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
+
+        [WebMethod]
+        public static string obtenerPedidos()
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                DataTable dt = logica_pedidos.obtienePedidos(cn);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
     }
 }
