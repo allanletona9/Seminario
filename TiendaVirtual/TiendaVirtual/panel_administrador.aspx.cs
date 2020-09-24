@@ -28,8 +28,11 @@ namespace TiendaVirtual
                 //}
 
                 //NombreUsuario.Text = Session["sesion_usuario"].ToString();
+                //dlTipoUsuario.Items.Clear();
+                //dlTipoUsuario.Items.Insert(1, "Administrador");
+                //dlTipoUsuario.Items.Insert(1, "Cliente");
 
-                
+
 
             }
             catch (Exception err)
@@ -213,6 +216,44 @@ namespace TiendaVirtual
                 return null;
             }
 
+        }
+
+        protected void btnRegistrarUser_Click(object sender, EventArgs e)
+        {
+            usuarios user = new usuarios();
+
+            string nombre_usuario = (txtNombre.Text + "." + txtApellido.Text).ToLower();
+
+            user.usuario = nombre_usuario;
+            user.correo = txtCorreo.Text;
+            user.password = txtPassword.Text;
+            if(Convert.ToInt32(dlTipoUsuario.SelectedValue) == 0)
+            {
+                user.tipousuario = "2";
+            }
+            else
+            {
+                user.tipousuario = dlTipoUsuario.SelectedValue;
+            }
+
+            string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+            string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+
+            cn.database = database;
+            cn.server = server;
+
+            bool insert = logica_usuarios.insertar_usuario(cn, user);
+
+            if (insert)
+            {
+                txtNombre.Text = "";
+                txtApellido.Text = "";
+                txtCorreo.Text = "";
+                txtPassword.Text = "";
+
+                string javaScript = "refreshUsuarios();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+            }
         }
     }
 }
