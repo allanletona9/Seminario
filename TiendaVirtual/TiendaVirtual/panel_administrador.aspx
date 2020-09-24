@@ -11,12 +11,40 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/estilos_paneladministrador.css" />
     <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
     <script src="js/jquery-3.5.1.js" type="text/javascript"></script>
      
     <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
 
 
+
+    <style type="text/css">
+        .padre {
+
+  height: 500px;
+  /*IMPORTANTE*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hijo {
+
+  width: 100%;
+  height: 500px;
+}
+
+.header {
+    color: #36A0FF;
+    font-size: 27px;
+    padding: 10px;
+}
+
+.bigicon {
+    font-size: 35px;
+    color: #36A0FF;
+}
+    </style>
 </head>
 <body>
     <script type="text/javascript">
@@ -31,6 +59,8 @@
         var tablaArticulos;
         var tablaPedidos;
         var tablaUsuarios;
+
+        var refreshUsuarios;
 
         function cerrarSesion() {
             document.getElementById("lnkCerrarSesion").click();
@@ -86,19 +116,44 @@
             usuarios();
         }
 
+        function nuevoUsuario() {
+            document.getElementById("usuarios").style.display = "none";
+            document.getElementById("edicion_usuario").style.display = "block";
+        }
+
+        function cancelarUsuario() {
+            document.getElementById("usuarios").style.display = "block";
+            document.getElementById("edicion_usuario").style.display = "none";
+            refreshUsuarios();
+        }
+        function guardarUsuario() {
+            document.getElementById("lnkGuardarUsuario").click();
+            document.getElementById("usuarios").style.display = "block";
+            document.getElementById("edicion_usuario").style.display = "none";
+
+        }
+
+
         $(document).ready(function () {
 
+            refreshUsuarios = function () {
+                $('#tblUsuarios').DataTable().ajax.reload();
+            }
             usuarios = function () {
                 tablaUsuarios = $('#tblUsuarios').DataTable({
                     ajax: {
                         url: '<%= ResolveUrl("panel_administrador.aspx/obtenerUsuarios") %>',
-                        type: 'POST',
-                        contentType: "application/json",
+                        method: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
                         dataSrc: function (data) {
                             return $.parseJSON(data.d);
                         }
                     },
+                    processing: true,
                     destroy: true,
+                    paginate: false,
+                    scrollY: window.innerHeight - 300 + 'px',
                     columns: [
                         { "data": "idUSUARIO" },
                         { "data": "descripcion" },
@@ -149,7 +204,7 @@
 
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span><a href='#'>Editar</a></span>";
+                                return "<span><a href='#' onclick='editarUsuarios();'>Editar</a></span>";
                             },
                         },
                         {
@@ -250,7 +305,7 @@
 
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span><a href='#'>Editar</a></span>";
+                                return "<span><a href='#' onclick='editarClientes()'>Editar</a></span>";
                             },
                         },
                         {
@@ -448,8 +503,7 @@
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="custom-menu">
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                    </button>
+
                 </div>
                 <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
                     <div class="user-logo">
@@ -490,6 +544,7 @@
             </asp:Panel>
 
             <div id="content" class="p-4 p-md-5 pt-5">
+
                  <div id="micuenta" style="display:none">
                     <h1>Mi Cuenta</h1>
                     <%--<table id="tblUsuarios">
@@ -497,12 +552,14 @@
                 </div>
 
                  <div id="clientes" style="display:none">
+                     <asp:Button runat="server" id="btnNuevoCliente" Text="Nuevo Cliente"/>
                     <h1>Mantenimiento de Clientes</h1>
                     <table id="tblClientes">
                     </table>
                 </div>
 
                  <div id="articulos" style="display:none">
+                     <asp:Button runat="server" id="btnNuevoArticulo" Text="Nuevo Articulo"/>
                     <h1>Mantenimiento de Articulos</h1>
                     <table id="tblArticulos">
                     </table>
@@ -515,9 +572,66 @@
                 </div>
 
                 <div id="usuarios" style="display:none">
+                    <input type="button" onclick="nuevoUsuario()" value="Nuevo Usuario"/>
                     <h1>Mantenimiento de Usuarios</h1>
                     <table id="tblUsuarios">
                     </table>
+                </div>
+
+                <div class="padre" style="display:none" id="edicion_usuario">
+                  <div class="hijo">                    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                    <fieldset>
+                        <legend class="text-center header">Nuevo Usuario</legend>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <asp:TextBox runat="server" ID="txtNombre" placeholder="Nombre" CssClass="form-control"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <asp:TextBox runat="server" ID="txtApellido" placeholder="Apellido" CssClass="form-control"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <asp:TextBox runat="server" ID="txtCorreo" placeholder="Correo Electronico" CssClass="form-control"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <asp:TextBox runat="server" ID="txtPassword" placeholder="Contraseña" CssClass="form-control"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <asp:DropDownList runat="server" ID="dlTipoUsuario" CssClass="form-control">
+                                    <asp:ListItem Value="0">Seleccione tipo de usuario</asp:ListItem>
+                                    <asp:ListItem Value="1">Administrador</asp:ListItem>
+                                    <asp:ListItem Value="2">Cliente</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <input type="button" class="btn btn-primary btn-lg" onclick="guardarUsuario()" value="Guardar" />
+      <%--                          <asp:Button runat="server" ID="btnRegistrarUser" Text="Guardar" CssClass="btn btn-primary btn-lg" OnClick="btnRegistrarUser_Click" OnClientClick="cancelarUsuario()"/>--%>
+                                <input type="button" class="btn btn-primary btn-lg" onclick="cancelarUsuario()" value="Cancelar" />
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</div></div>
+
                 </div>
                 <%--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--%>
@@ -532,6 +646,7 @@
         <asp:UpdatePanel runat="server">
             <ContentTemplate>
                 <asp:LinkButton runat="server" ID="lnkCerrarSesion" ClientIDMode="Static" OnClick="lnkCerrarSesion_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkGuardarUsuario" ClientIDMode="Static" OnClick="btnRegistrarUser_Click"></asp:LinkButton>
             </ContentTemplate>
         </asp:UpdatePanel>
     </form>
