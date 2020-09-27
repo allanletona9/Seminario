@@ -19,20 +19,15 @@ namespace TiendaVirtual
         {
             try
             {
-                //if (Session.IsNewSession)
-                //{
-                //    Session.Clear();
-                //    Session.Abandon();
-                //    Session.RemoveAll();
-                //    Response.Redirect("login.aspx");
-                //}
+                if (Session.IsNewSession)
+                {
+                    Session.Clear();
+                    Session.Abandon();
+                    Session.RemoveAll();
+                    Response.Redirect("login.aspx");
+                }
 
-                //NombreUsuario.Text = Session["sesion_usuario"].ToString();
-                //dlTipoUsuario.Items.Clear();
-                //dlTipoUsuario.Items.Insert(1, "Administrador");
-                //dlTipoUsuario.Items.Insert(1, "Cliente");
-
-
+                NombreUsuario.Text = Session["sesion_usuario"].ToString();
 
             }
             catch (Exception err)
@@ -63,8 +58,54 @@ namespace TiendaVirtual
                 string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
                 cn.database = database;
                 cn.server = server;
+                
 
-                DataTable dt = logica_usuarios.obtieneUsuarios(cn);
+                DataTable dt = logica_usuarios.obtieneUsuarios(cn, 1);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
+          
+        [WebMethod]
+        public static string obtenerUsuarioIndividual(string idusuario)
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+                
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+                cn.usuario = idusuario;
+
+
+                DataTable dt = logica_usuarios.obtieneUsuarios(cn, 2);
 
                 List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
                 Dictionary<string, object> row = null;
@@ -221,13 +262,21 @@ namespace TiendaVirtual
         protected void btnRegistrarUser_Click(object sender, EventArgs e)
         {
             usuarios user = new usuarios();
+            cliente clientes = new cliente();
 
-            string nombre_usuario = (txtNombre.Text + "." + txtApellido.Text).ToLower();
+            string nombre_usuario = (hdNombreUsuario.Value + "." + hdApellidoUsuario.Value).ToLower();
+
+            clientes.idusuario = nombre_usuario;
+            clientes.nombre = hdNombreUsuario.Value;
+            clientes.apellido = hdApellidoUsuario.Value;
+            clientes.email = hdCorreoUsuario.Value;
+            clientes.fechaInicio = Convert.ToString(DateTime.Now);
 
             user.usuario = nombre_usuario;
-            user.correo = txtCorreo.Text;
-            user.password = txtPassword.Text;
-            if(Convert.ToInt32(dlTipoUsuario.SelectedValue) == 0)
+            user.correo = hdCorreoUsuario.Value;
+            user.password = hdPasswordUsuario.Value;
+
+            if (Convert.ToInt32(dlTipoUsuario.SelectedValue) == 0)
             {
                 user.tipousuario = "2";
             }
@@ -242,17 +291,47 @@ namespace TiendaVirtual
             cn.database = database;
             cn.server = server;
 
-            bool insert = logica_usuarios.insertar_usuario(cn, user);
+            bool insert = logica_usuarios.insertar_usuario(cn, user, clientes);
 
             if (insert)
             {
-                txtNombre.Text = "";
-                txtApellido.Text = "";
-                txtCorreo.Text = "";
-                txtPassword.Text = "";
-
                 string javaScript = "refreshUsuarios();";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+            }
+        }
+
+        protected void lnkObtenerEditarUsuario_Click(object sender, EventArgs e)
+        {
+        }
+
+        protected void lnkObtnerMiCuenta_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+                cn.usuario = Session["sesion_usuario"].ToString();
+
+
+                DataTable dt = logica_usuarios.obtieneUsuarios(cn, 2);
+
+                hdIdUsuario.Value = dt.Rows[0]["idUSUARIO"].ToString();
+                hdNombreUsuario.Value = dt.Rows[0]["nombre"].ToString();
+                hdApellidoUsuario.Value = dt.Rows[0]["apellido"].ToString();
+                hdPasswordUsuario.Value = dt.Rows[0]["password"].ToString();
+                hdCorreoUsuario.Value = dt.Rows[0]["correo"].ToString();
+
+                string javaScript = "datosMicuenta();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                
             }
         }
     }

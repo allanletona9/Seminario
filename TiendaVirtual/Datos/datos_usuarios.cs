@@ -46,7 +46,7 @@ namespace Datos
             }
         }
 
-        public static bool insertar_usuario(conexion_entidad cn_conexion ,usuarios user)
+        public static bool insertar_usuario(conexion_entidad cn_conexion ,usuarios user, cliente clientes)
         {
             SqlConnection sqlConexion = new SqlConnection("server = "+ cn_conexion.server+";database="+ cn_conexion.database+";Integrated Security=True");
 
@@ -58,12 +58,18 @@ namespace Datos
             sqlInsertar.Parameters.AddWithValue("@correo", user.correo);
             sqlInsertar.Parameters.AddWithValue("@password", user.password);
 
+            string sCliente = "INSERT INTO CLIENTE(idUSUARIO, nombre, apellido,telefono,identificacion, email, fechaInicio,nit, estado) VALUES('" + clientes.idusuario+ "', " +
+                "'" + clientes.nombre + "', '" + clientes.apellido + "', '"+clientes.telefono+"','"+clientes.identificacion+"'," +
+                "'" + clientes.email + "', '" + DateTime.Now + "','"+clientes.nit+"', 1)";
+            SqlCommand sqlInsertCliente = new SqlCommand(sCliente, sqlConexion);
+
             sqlConexion.Open();
             sqlInsertar.Connection = sqlConexion;
 
             try
             {
                 sqlInsertar.ExecuteNonQuery();
+                sqlInsertCliente.ExecuteNonQuery();
                 if (sqlConexion.State == ConnectionState.Open)
                 {
                     sqlConexion.Close();
@@ -80,14 +86,23 @@ namespace Datos
             }
         }
 
-        public static DataTable obtieneUsuarios(conexion_entidad cn_conexion)
+        public static DataTable obtieneUsuarios(conexion_entidad cn_conexion, Int32 parametro)
         {
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+            SqlCommand sqlObtieneUsuarios;
+            if (parametro == 1)
+            {
+                 sqlObtieneUsuarios = new SqlCommand("sp_obtieneUsuarios", sqlConexion);
+                sqlObtieneUsuarios.CommandType = CommandType.StoredProcedure;
 
-            SqlCommand sqlObtieneUsuarios = new SqlCommand("sp_obtieneUsuarios", sqlConexion);
-            sqlObtieneUsuarios.CommandType = CommandType.StoredProcedure;
-
-            sqlObtieneUsuarios.Parameters.AddWithValue("@idusuario", Convert.IsDBNull(cn_conexion.usuario) ? Convert.DBNull : cn_conexion.usuario);
+                sqlObtieneUsuarios.Parameters.AddWithValue("@idusuario", Convert.IsDBNull(cn_conexion.usuario) ? Convert.DBNull : cn_conexion.usuario);
+            }
+            else
+            {
+                string sUsuCliente = "SELECT c.nombre, c.apellido, u.idUSUARIO, u.correo ,CAST(DECRYPTBYPASSPHRASE('password', u.password) AS VARCHAR(8000)) AS password FROM USUARIO u WITH(NOLOCK) INNER JOIN CLIENTE c WITH(NOLOCK) ON u.idUSUARIO = c.idUSUARIO WHERE u.idUSUARIO = '"+ cn_conexion.usuario + "'";
+                 sqlObtieneUsuarios = new SqlCommand(sUsuCliente, sqlConexion);
+            }
+            
 
             try
             {

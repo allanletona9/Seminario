@@ -20,6 +20,7 @@ namespace TiendaVirtual
         protected void btnRegistrarUser_Click(object sender, EventArgs e)
         {
             usuarios user = new usuarios();
+            cliente clientes = new cliente();
 
             if (txtPassword.Text != txtConfirmarPassword.Text)
             {
@@ -27,6 +28,12 @@ namespace TiendaVirtual
             }
 
             string nombre_usuario = (txtNombre.Text + "." + txtApellido.Text).ToLower();
+
+            clientes.idusuario = nombre_usuario;
+            clientes.nombre = txtNombre.Text;
+            clientes.apellido = txtApellido.Text;
+            clientes.email = txtEmail.Text;
+            clientes.fechaInicio = Convert.ToString(DateTime.Now);
 
             user.usuario = nombre_usuario;
             user.correo = txtEmail.Text;
@@ -39,7 +46,7 @@ namespace TiendaVirtual
             cn.database = database;
             cn.server = server;
 
-            bool insert = logica_usuarios.insertar_usuario(cn, user);
+            bool insert = logica_usuarios.insertar_usuario(cn, user, clientes);
 
             if (insert)
             {
