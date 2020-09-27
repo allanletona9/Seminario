@@ -33,6 +33,18 @@ namespace Logica
             }
         }
 
+        public static bool actualizar_usuario(conexion_entidad cn_conexion, usuarios user, cliente clientes)
+        {
+            try
+            {
+                return datos_usuarios.actualizar_usuario(cn_conexion, user, clientes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
         public static DataTable obtieneUsuarios(conexion_entidad cn_conexion, Int32 parametro)
         {
             try

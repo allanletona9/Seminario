@@ -86,6 +86,42 @@ namespace Datos
             }
         }
 
+        public static bool actualizar_usuario(conexion_entidad cn_conexion, usuarios user, cliente clientes)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+
+            string sUsuario = "UPDATE USUARIO SET correo = '"+user.correo+ "', password = ENCRYPTBYPASSPHRASE('password', '" + user.password + "') WHERE idUSUARIO = '" + user.usuario+"' ";
+            SqlCommand sqlUpdateClient = new SqlCommand(sUsuario, sqlConexion);
+
+            string sCliente = "UPDATE CLIENTE SET nombre = '"+clientes.nombre+"', apellido = '"+clientes.apellido+"', " +
+                "telefono = '"+clientes.telefono+"', identificacion = '"+clientes.identificacion+"', email = '"+clientes.email+"', " +
+                "nit = '"+clientes.nit+"',estado = '"+Convert.ToBoolean(clientes.estado)+ "' WHERE idUSUARIO = '"+user.usuario.ToString()+"' ";
+            SqlCommand sqlInsertCliente = new SqlCommand(sCliente, sqlConexion);
+
+            sqlConexion.Open();
+            sqlUpdateClient.Connection = sqlConexion;
+
+            try
+            {
+                sqlInsertCliente.ExecuteNonQuery();
+                sqlUpdateClient.ExecuteNonQuery();
+                
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
         public static DataTable obtieneUsuarios(conexion_entidad cn_conexion, Int32 parametro)
         {
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
