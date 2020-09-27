@@ -61,6 +61,7 @@
         var tablaUsuarios;
 
         var refreshUsuarios;
+        var identificador_usuario = 0;
 
         function cerrarSesion() {
             document.getElementById("lnkCerrarSesion").click();
@@ -80,6 +81,7 @@
             document.getElementById("clientes").style.display = "block";
 
             document.getElementById("micuenta").style.display = "none";
+            document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
@@ -90,6 +92,7 @@
             document.getElementById("articulos").style.display = "block";
 
             document.getElementById("micuenta").style.display = "none";
+            document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
@@ -100,6 +103,7 @@
             document.getElementById("pedidos").style.display = "block";
 
             document.getElementById("micuenta").style.display = "none";
+            document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
@@ -110,6 +114,7 @@
             document.getElementById("usuarios").style.display = "block";
 
             document.getElementById("micuenta").style.display = "none";
+            document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
@@ -121,24 +126,96 @@
             document.getElementById("edicion_usuario").style.display = "block";
         }
 
+        function mi_cuenta() {
+            document.getElementById("edicionmicuenta").style.display = "block"; 
+            document.getElementById("lnkObtnerMiCuenta").click();
+
+            
+        }
+
+        function datosMicuenta() {
+            document.getElementById("txtIdUsuarioM").value = document.getElementById("hdIdUsuario").value;
+            document.getElementById("txtNombreUsuarioM").value = document.getElementById("hdNombreUsuario").value;
+            document.getElementById("txtApellidoUsuarioM").value = document.getElementById("hdApellidoUsuario").value;
+            document.getElementById("txtCorreoUsuarioM").value = document.getElementById("hdCorreoUsuario").value;
+            document.getElementById("txtPasswordUsuarioM").value = document.getElementById("hdPasswordUsuario").value;
+        }
+
         function cancelarUsuario() {
             document.getElementById("usuarios").style.display = "block";
             document.getElementById("edicion_usuario").style.display = "none";
             refreshUsuarios();
         }
         function guardarUsuario() {
-            document.getElementById("lnkGuardarUsuario").click();
-            document.getElementById("usuarios").style.display = "block";
-            document.getElementById("edicion_usuario").style.display = "none";
+            if (identificador_usuario == 0) {
+                document.getElementById("hdNombreUsuario").value = document.getElementById("txtNombreUsuario").value;
+                document.getElementById("hdApellidoUsuario").value = document.getElementById("txtApellidoUsuario").value;
+                document.getElementById("hdCorreoUsuario").value = document.getElementById("txtCorreoUsuario").value;
+                document.getElementById("hdPasswordUsuario").value = document.getElementById("txtPasswordUsuario").value;
 
+                document.getElementById("lnkGuardarUsuario").click();
+                document.getElementById("usuarios").style.display = "block";
+                document.getElementById("edicion_usuario").style.display = "none";
+
+                document.getElementById("txtNombreUsuario").value = "";
+                document.getElementById("txtApellidoUsuario").value = "";
+                document.getElementById("txtCorreoUsuario").value = "";
+                document.getElementById("txtPasswordUsuario").value = "";
+
+
+            } else {
+                alert("Edicion");
+                //document.getElementById("lnkGuardarUsuario").click();
+                //document.getElementById("usuarios").style.display = "block";
+                //document.getElementById("edicion_usuario").style.display = "none";
+            }
         }
 
+        function editarUsuarios(id) {
+
+                    identificador_usuario = 1;
+                    document.getElementById("usuarios").style.display = "none";
+                    document.getElementById("edicion_usuario").style.display = "block";
+
+                    try {
+                        $.ajax({
+                            url: '<%= ResolveUrl("panel_administrador.aspx/obtenerUsuarioIndividual") %>',
+                    method: 'post',
+                    contentType: "application/json",
+                            dataType: "json",
+                    async: false,
+                    data: '{"idusuario":"' + id + '"'
+                        + '}',
+                    success: function (data) {
+
+                        if (data.d) {
+                            console.log(data.d);
+                            var user = $.parseJSON(data.d);
+                            console.log(user[0].nombre);
+                            document.getElementById("txtIdUsuario").value = user[0].idUSUARIO;
+                            document.getElementById("txtNombreUsuario").value = user[0].nombre;
+                            document.getElementById("txtApellidoUsuario").value = user[0].apellido;
+                            document.getElementById("txtCorreoUsuario").value = user[0].correo;
+                            document.getElementById("txtPasswordUsuario").value = user[0].password;
+                        }
+                    },
+                    error: function (err) {
+                        console.error(err);
+                    }
+                });
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
 
         $(document).ready(function () {
 
             refreshUsuarios = function () {
                 $('#tblUsuarios').DataTable().ajax.reload();
             }
+
+           
+
             usuarios = function () {
                 tablaUsuarios = $('#tblUsuarios').DataTable({
                     ajax: {
@@ -150,6 +227,7 @@
                             return $.parseJSON(data.d);
                         }
                     },
+                    rowId: 'idUSUARIO',
                     processing: true,
                     destroy: true,
                     paginate: false,
@@ -204,7 +282,7 @@
 
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span><a href='#' onclick='editarUsuarios();'>Editar</a></span>";
+                                return "<span><a href='#' onclick='editarUsuarios(\"" + row.idUSUARIO + "\");'>Editar</a></span>";
                             },
                         },
                         {
@@ -220,8 +298,10 @@
                 });
             };
 
+
             micuenta = function () {
-                alert("mi cuenta");
+                
+                mi_cuenta();
             };
 
             clientes = function () {
@@ -546,7 +626,7 @@
             <div id="content" class="p-4 p-md-5 pt-5">
 
                  <div id="micuenta" style="display:none">
-                    <h1>Mi Cuenta</h1>
+
                     <%--<table id="tblUsuarios">
                     </table>--%>
                 </div>
@@ -586,26 +666,31 @@
                     <fieldset>
                         <legend class="text-center header">Nuevo Usuario</legend>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display:none">
                             <div class="col-md-12">
-                                <asp:TextBox runat="server" ID="txtNombre" placeholder="Nombre" CssClass="form-control"></asp:TextBox>
+                                <input type="text" id="txtIdUsuario" class="form-control" placeholder="Nombre"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <asp:TextBox runat="server" ID="txtApellido" placeholder="Apellido" CssClass="form-control"></asp:TextBox>
+                                <input type="text" id="txtNombreUsuario" class="form-control" placeholder="Nombre"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                   <input type="text" id="txtApellidoUsuario" class="form-control" placeholder="Apellido"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <asp:TextBox runat="server" ID="txtCorreo" placeholder="Correo Electronico" CssClass="form-control"></asp:TextBox>
+                                 <input type="text" id="txtCorreoUsuario" class="form-control" placeholder="Correo Electronico"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <asp:TextBox runat="server" ID="txtPassword" placeholder="Contraseña" CssClass="form-control"></asp:TextBox>
+                                <input type="password" id="txtPasswordUsuario" class="form-control" placeholder="Contraseña"/>
                             </div>
                         </div>
 
@@ -633,6 +718,63 @@
 </div></div>
 
                 </div>
+
+                <div class="padre" style="display:none" id="edicionmicuenta">
+                  <div class="hijo">                    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                    <fieldset>
+                        <legend class="text-center header">Mi Cuenta</legend>
+
+                        <div class="form-group" style="display:block">
+                            <div class="col-md-12">
+                                 <label>ID Usuario</label>
+                                <input type="text" id="txtIdUsuarioM" class="form-control" placeholder="Nombre Usuario" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Nombre</label>
+                                <input type="text" id="txtNombreUsuarioM" class="form-control" placeholder="Nombre"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Apellido</label>
+                                   <input type="text" id="txtApellidoUsuarioM" class="form-control" placeholder="Apellido"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Correo Electronico</label>
+                                 <input type="text" id="txtCorreoUsuarioM" class="form-control" placeholder="Correo Electronico"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Contraseña</label>
+                                <input type="password" id="txtPasswordUsuarioM" class="form-control" placeholder="Contraseña"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <input type="button" class="btn btn-primary btn-lg" onclick="guardarUsuario()" value="Actualizar" />
+      <%--                          <asp:Button runat="server" ID="btnRegistrarUser" Text="Guardar" CssClass="btn btn-primary btn-lg" OnClick="btnRegistrarUser_Click" OnClientClick="cancelarUsuario()"/>--%>
+                                <input type="button" class="btn btn-primary btn-lg" onclick="cancelarUsuario()" value="Cancelar" />
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</div></div>
+
+                </div>
                 <%--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--%>
             </div>
@@ -647,11 +789,21 @@
             <ContentTemplate>
                 <asp:LinkButton runat="server" ID="lnkCerrarSesion" ClientIDMode="Static" OnClick="lnkCerrarSesion_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkGuardarUsuario" ClientIDMode="Static" OnClick="btnRegistrarUser_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkObtenerEditarUsuario" ClientIDMode="Static" OnClick="lnkObtenerEditarUsuario_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkObtnerMiCuenta" ClientIDMode="Static" OnClick="lnkObtnerMiCuenta_Click"></asp:LinkButton>
+                
+                 <asp:HiddenField runat="server" ID="hdIdUsuario" ClientIDMode="Static" value=""/>
+                <asp:HiddenField runat="server" ID="hdNombreUsuario" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdApellidoUsuario" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdCorreoUsuario" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdPasswordUsuario" ClientIDMode="Static" value=""/>
             </ContentTemplate>
         </asp:UpdatePanel>
     </form>
 
+    <script type="text/javascript">
 
+    </script>
 
 </body>
 </html>
