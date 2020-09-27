@@ -22,5 +22,30 @@ namespace Logica
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static DataTable obtieneClienteIndividual(conexion_entidad cn_conexion, cliente clientes)
+        {
+            try
+            {
+                return datos_clientes.obtieneClienteIndividual(cn_conexion, clientes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+        public static bool actualizar_cliente(conexion_entidad cn_conexion, cliente clientes)
+        {
+            try
+            {
+                return datos_clientes.actualizar_cliente(cn_conexion,clientes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
     }
 }

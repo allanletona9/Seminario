@@ -176,6 +176,52 @@ namespace TiendaVirtual
         }
 
         [WebMethod]
+        public static string obtenerClienteIndividual(string idcliente)
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                cliente clientes = new cliente();
+                clientes.idcliente = idcliente;
+
+                DataTable dt = logica_clientes.obtieneClienteIndividual(cn, clientes);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
+
+        [WebMethod]
         public static string obtenerArticulos()
         {
 
@@ -323,6 +369,7 @@ namespace TiendaVirtual
                 hdNombreUsuario.Value = dt.Rows[0]["nombre"].ToString();
                 hdApellidoUsuario.Value = dt.Rows[0]["apellido"].ToString();
                 hdPasswordUsuario.Value = dt.Rows[0]["password"].ToString();
+                hdPasswordUsuario2.Value = dt.Rows[0]["password"].ToString();
                 hdCorreoUsuario.Value = dt.Rows[0]["correo"].ToString();
 
                 string javaScript = "datosMicuenta();";
@@ -332,6 +379,63 @@ namespace TiendaVirtual
             {
                 Console.WriteLine("Error: " + ex);
                 
+            }
+        }
+
+        protected void lnkActualizarMiCuenta_Click(object sender, EventArgs e)
+        {
+            usuarios user = new usuarios();
+            cliente clientes = new cliente();
+
+            if (hdPasswordUsuario.Value != hdPasswordUsuario2.Value)
+            {
+                return;
+            }
+
+            clientes.idusuario = hdIdUsuario.Value;
+            clientes.nombre = hdNombreUsuario.Value;
+            clientes.apellido = hdApellidoUsuario.Value;
+            clientes.email = hdCorreoUsuario.Value;
+
+            user.usuario = hdIdUsuario.Value;
+            user.correo = hdCorreoUsuario.Value;
+            user.password = hdPasswordUsuario.Value;
+
+            bool update = logica_usuarios.actualizar_usuario(cn, user, clientes);
+
+            if (update)
+            {
+
+            }
+        }
+
+        protected void lnkActualizarCliente_Click(object sender, EventArgs e)
+        {
+            cliente clientes = new cliente();
+
+            clientes.idcliente = hdIdCliente.Value;
+            clientes.idusuario = hdIdUserCliente.Value;
+            clientes.nombre = hdNombreCliente.Value;
+            clientes.apellido = hdApellidoCliente.Value;
+            clientes.telefono = hdTelefonoCliente.Value;
+            clientes.identificacion = hdIdentificacionCliente.Value;
+            clientes.email = hdCorreoCliente.Value;
+            clientes.nit = hdNITCliente.Value;
+
+            if (Convert.ToInt32(dpEstadoCliente.SelectedValue) == 0)
+            {
+                clientes.estado = "0";
+            }
+            else
+            {
+                clientes.estado = dpEstadoCliente.SelectedValue;
+            }
+
+            bool update = logica_clientes.actualizar_cliente(cn, clientes);
+
+            if (update)
+            {
+
             }
         }
     }

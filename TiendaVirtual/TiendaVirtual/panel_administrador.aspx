@@ -73,6 +73,7 @@
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
+            document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             micuenta();
         }
@@ -83,6 +84,7 @@
             document.getElementById("micuenta").style.display = "none";
             document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("articulos").style.display = "none";
+            document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             clientes();
@@ -94,6 +96,7 @@
             document.getElementById("micuenta").style.display = "none";
             document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("clientes").style.display = "none";
+            document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             articulos();
@@ -104,6 +107,7 @@
 
             document.getElementById("micuenta").style.display = "none";
             document.getElementById("edicionmicuenta").style.display = "none";
+            document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
@@ -115,6 +119,7 @@
 
             document.getElementById("micuenta").style.display = "none";
             document.getElementById("edicionmicuenta").style.display = "none";
+            document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
@@ -139,6 +144,7 @@
             document.getElementById("txtApellidoUsuarioM").value = document.getElementById("hdApellidoUsuario").value;
             document.getElementById("txtCorreoUsuarioM").value = document.getElementById("hdCorreoUsuario").value;
             document.getElementById("txtPasswordUsuarioM").value = document.getElementById("hdPasswordUsuario").value;
+            document.getElementById("txtPasswordUsuario2M").value = document.getElementById("hdPasswordUsuario2").value;
         }
 
         function cancelarUsuario() {
@@ -152,10 +158,12 @@
                 document.getElementById("hdApellidoUsuario").value = document.getElementById("txtApellidoUsuario").value;
                 document.getElementById("hdCorreoUsuario").value = document.getElementById("txtCorreoUsuario").value;
                 document.getElementById("hdPasswordUsuario").value = document.getElementById("txtPasswordUsuario").value;
-
+                
+                
                 document.getElementById("lnkGuardarUsuario").click();
                 document.getElementById("usuarios").style.display = "block";
                 document.getElementById("edicion_usuario").style.display = "none";
+
 
                 document.getElementById("txtNombreUsuario").value = "";
                 document.getElementById("txtApellidoUsuario").value = "";
@@ -171,11 +179,74 @@
             }
         }
 
+        function actualizarMiCuenta() {
+            document.getElementById("hdIdUsuario").value = document.getElementById("txtIdUsuarioM").value;
+            document.getElementById("hdNombreUsuario").value = document.getElementById("txtNombreUsuarioM").value;
+            document.getElementById("hdApellidoUsuario").value = document.getElementById("txtApellidoUsuarioM").value;
+            document.getElementById("hdCorreoUsuario").value = document.getElementById("txtCorreoUsuarioM").value;
+            document.getElementById("hdPasswordUsuario").value = document.getElementById("txtPasswordUsuarioM").value;
+            document.getElementById("hdPasswordUsuario2").value = document.getElementById("txtPasswordUsuario2M").value;
+
+            document.getElementById("lnkActualizarMiCuenta").click();
+        }
+
+        function actualizarCliente() {
+            document.getElementById("hdIdCliente").value = document.getElementById("txtIdCliente").value;
+            document.getElementById("hdIdUserCliente").value = document.getElementById("txtIdUsuarioCliente").value;
+            document.getElementById("hdNombreCliente").value = document.getElementById("txtNombreCliente").value;
+            document.getElementById("hdApellidoCliente").value = document.getElementById("txtApellidoCliente").value;
+            document.getElementById("hdTelefonoCliente").value = document.getElementById("txtTelefonoCliente").value;
+            document.getElementById("hdIdentificacionCliente").value = document.getElementById("txtIdentificacionCliente").value;
+            document.getElementById("hdCorreoCliente").value = document.getElementById("txtEmailCliente").value;
+            document.getElementById("hdNITCliente").value = document.getElementById("txtNitCliente").value;
+
+            document.getElementById("lnkActualizarCliente").click();
+        }
+
+        
+        function editarClientes(id) {
+            document.getElementById("clientes").style.display = "none";
+            document.getElementById("edicioncliente").style.display = "block";
+
+            try {
+                $.ajax({
+                    url: '<%= ResolveUrl("panel_administrador.aspx/obtenerClienteIndividual") %>',
+                            method: 'post',
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: false,
+                             data: '{"idcliente":"' + id + '"'
+                                + '}',
+                            success: function (data) {
+
+                                if (data.d) {
+                                    console.log(data.d);
+                                    var client = $.parseJSON(data.d);
+                                    console.log(client);
+                                    //console.log(user[0].nombre);
+                                    document.getElementById("txtIdCliente").value = client[0].idCLIENTE;
+                                    document.getElementById("txtIdUsuarioCliente").value = client[0].idUSUARIO;
+                                    document.getElementById("txtNombreCliente").value = client[0].nombre;
+                                    document.getElementById("txtApellidoCliente").value = client[0].apellido;
+                                    document.getElementById("txtTelefonoCliente").value = client[0].telefono;
+                                    document.getElementById("txtIdentificacionCliente").value = client[0].identificacion;
+                                    document.getElementById("txtEmailCliente").value = client[0].email;
+                                    document.getElementById("txtNitCliente").value = client[0].nit;
+                                }
+                            },
+                            error: function (err) {
+                                console.error(err);
+                            }
+                        });
+            } catch (error) {
+                console.error(error);
+            }
+        }
         function editarUsuarios(id) {
 
                     identificador_usuario = 1;
-                    document.getElementById("usuarios").style.display = "none";
-                    document.getElementById("edicion_usuario").style.display = "block";
+                    document.getElementById("clientes").style.display = "none";
+                    document.getElementById("edicioncliente").style.display = "block";
 
                     try {
                         $.ajax({
@@ -385,7 +456,7 @@
 
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span><a href='#' onclick='editarClientes()'>Editar</a></span>";
+                                return "<span><a href='#' onclick='editarClientes("+row.idcliente+")'>Editar</a></span>";
                             },
                         },
                         {
@@ -760,12 +831,104 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Contraseña</label>
+                                <input type="password" id="txtPasswordUsuario2M" class="form-control" placeholder="Contraseña"/>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <input type="button" class="btn btn-primary btn-lg" onclick="guardarUsuario()" value="Actualizar" />
-      <%--                          <asp:Button runat="server" ID="btnRegistrarUser" Text="Guardar" CssClass="btn btn-primary btn-lg" OnClick="btnRegistrarUser_Click" OnClientClick="cancelarUsuario()"/>--%>
-                                <input type="button" class="btn btn-primary btn-lg" onclick="cancelarUsuario()" value="Cancelar" />
+                                <input type="button" class="btn btn-primary btn-lg" onclick="actualizarMiCuenta()" value="Actualizar" />
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</div></div>
+
+                </div>
+
+                <div class="padre" style="display:none" id="edicioncliente">
+                  <div class="hijo">                    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                    <fieldset>
+                        <legend class="text-center header">Edicion de Clientes</legend>
+
+                        <div class="form-group" style="display:block">
+                            <div class="col-md-12">
+                                 <label>ID Cliente</label>
+                                <input type="text" id="txtIdCliente" class="form-control" placeholder="Cliente" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>ID Usuario</label>
+                                <input type="text" id="txtIdUsuarioCliente" class="form-control" placeholder="Usuario" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Nombre</label>
+                                   <input type="text" id="txtNombreCliente" class="form-control" placeholder="Nombre"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Apellido</label>
+                                 <input type="text" id="txtApellidoCliente" class="form-control" placeholder="Apellido"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Telefono</label>
+                                <input type="password" id="txtTelefonoCliente" class="form-control" placeholder="Telefono"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Identificacion</label>
+                                <input type="password" id="txtIdentificacionCliente" class="form-control" placeholder="Identificacion"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Correo Electronico</label>
+                                <input type="text" id="txtEmailCliente" class="form-control" placeholder="Correo Electronico"/>
+                            </div>
+                        </div>
+
+
+                         <div class="form-group">
+                            <div class="col-md-12">
+                                <label>NIT</label>
+                                <input type="password" id="txtNitCliente" class="form-control" placeholder="NIT"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Estado</label>
+                                <asp:DropDownList runat="server" ID="dpEstadoCliente" CssClass="form-control">
+                                    <asp:ListItem Value="1">Activo</asp:ListItem>
+                                    <asp:ListItem Value="0">Inactivo</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <input type="button" class="btn btn-primary btn-lg" onclick="actualizarCliente()" value="Actualizar" />
                             </div>
                         </div>
                     </fieldset>
@@ -791,12 +954,26 @@
                 <asp:LinkButton runat="server" ID="lnkGuardarUsuario" ClientIDMode="Static" OnClick="btnRegistrarUser_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkObtenerEditarUsuario" ClientIDMode="Static" OnClick="lnkObtenerEditarUsuario_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkObtnerMiCuenta" ClientIDMode="Static" OnClick="lnkObtnerMiCuenta_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkActualizarMiCuenta" ClientIDMode="Static" OnClick="lnkActualizarMiCuenta_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkActualizarCliente" ClientIDMode="Static" OnClick="lnkActualizarCliente_Click"></asp:LinkButton>
                 
                  <asp:HiddenField runat="server" ID="hdIdUsuario" ClientIDMode="Static" value=""/>
                 <asp:HiddenField runat="server" ID="hdNombreUsuario" ClientIDMode="Static" value=""/>
                  <asp:HiddenField runat="server" ID="hdApellidoUsuario" ClientIDMode="Static" value=""/>
                  <asp:HiddenField runat="server" ID="hdCorreoUsuario" ClientIDMode="Static" value=""/>
                  <asp:HiddenField runat="server" ID="hdPasswordUsuario" ClientIDMode="Static" value=""/>
+                <asp:HiddenField runat="server" ID="hdPasswordUsuario2" ClientIDMode="Static" value=""/>
+
+                <asp:HiddenField runat="server" ID="hdIdCliente" ClientIDMode="Static" value=""/>
+                <asp:HiddenField runat="server" ID="hdIdUserCliente" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdNombreCliente" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdApellidoCliente" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdTelefonoCliente" ClientIDMode="Static" value=""/>
+                <asp:HiddenField runat="server" ID="hdIdentificacionCliente" ClientIDMode="Static" value=""/>
+                <asp:HiddenField runat="server" ID="hdCorreoCliente" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdNITCliente" ClientIDMode="Static" value=""/>
+
+
             </ContentTemplate>
         </asp:UpdatePanel>
     </form>
