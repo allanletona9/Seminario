@@ -40,7 +40,7 @@ namespace Datos
         {
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
 
-            string sCliente = "SELECT * FROM CLIENTE WHERE idCLIENTE = '"+clientes.idcliente+"'";
+            string sCliente = "SELECT * FROM CLIENTE WHERE idCLIENTE = '" + clientes.idcliente + "'";
             SqlCommand sqlObtieneClientes = new SqlCommand(sCliente, sqlConexion);
 
             try
@@ -66,27 +66,24 @@ namespace Datos
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
 
             string sCliente = "";
-            if (clientes.telefono == "" || clientes.identificacion == "" || clientes.nit == "")
-            {
-                sCliente = "UPDATE CLIENTE SET nombre = '" + clientes.nombre + "', apellido = '" + clientes.apellido + "', " +
-                "email = '" + clientes.email + "', " +
-                "estado = '" + clientes.estado + "' WHERE idCLIENTE = '" + clientes.idcliente + "' ";
-            }
-            else
-            {
-                sCliente = "UPDATE CLIENTE SET nombre = '" + clientes.nombre + "', apellido = '" + clientes.apellido + "', " +
+
+            string sUsuario = "UPDATE USUARIO SET correo = '" + clientes.email + "' WHERE idUSUARIO = '" + clientes.idusuario + "' ";
+            SqlCommand sqlUpdateClient = new SqlCommand(sUsuario, sqlConexion);
+
+            sCliente = "UPDATE CLIENTE SET nombre = '" + clientes.nombre + "', apellido = '" + clientes.apellido + "', " +
                 "telefono = '" + clientes.telefono + "', identificacion = '" + clientes.identificacion + "', email = '" + clientes.email + "', " +
                 "nit = '" + clientes.nit + "',estado = '" + clientes.estado + "' WHERE idCLIENTE = '" + clientes.idcliente + "' ";
-            }
-            
+
             SqlCommand sqlInsertCliente = new SqlCommand(sCliente, sqlConexion);
 
+
             sqlConexion.Open();
-            //sqlInsertCliente.Connection = sqlConexion;
+            sqlInsertCliente.Connection = sqlConexion;
 
             try
             {
                 sqlInsertCliente.ExecuteNonQuery();
+                sqlUpdateClient.ExecuteNonQuery();
 
                 if (sqlConexion.State == ConnectionState.Open)
                 {
