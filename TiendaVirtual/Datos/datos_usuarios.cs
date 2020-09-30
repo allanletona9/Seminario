@@ -90,12 +90,12 @@ namespace Datos
         {
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
 
-            string sUsuario = "UPDATE USUARIO SET correo = '"+user.correo+ "', password = ENCRYPTBYPASSPHRASE('password', '" + user.password + "') WHERE idUSUARIO = '" + user.usuario+"' ";
+            string sUsuario = "UPDATE USUARIO SET correo = '"+user.correo+ "', password = ENCRYPTBYPASSPHRASE('password', '" + user.password + "'), estado = '"+clientes.estado+"' WHERE idUSUARIO = '" + user.usuario+"' ";
             SqlCommand sqlUpdateClient = new SqlCommand(sUsuario, sqlConexion);
 
             string sCliente = "UPDATE CLIENTE SET nombre = '"+clientes.nombre+"', apellido = '"+clientes.apellido+"', " +
                 "telefono = '"+clientes.telefono+"', identificacion = '"+clientes.identificacion+"', email = '"+clientes.email+"', " +
-                "nit = '"+clientes.nit+"',estado = '"+Convert.ToBoolean(clientes.estado)+ "' WHERE idUSUARIO = '"+user.usuario.ToString()+"' ";
+                "nit = '"+clientes.nit+"',estado = '"+clientes.estado+ "' WHERE idUSUARIO = '"+user.usuario.ToString()+"' ";
             SqlCommand sqlInsertCliente = new SqlCommand(sCliente, sqlConexion);
 
             sqlConexion.Open();

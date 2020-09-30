@@ -9,6 +9,7 @@ using Logica;
 using System.Data;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using System.Drawing;
 
 namespace TiendaVirtual
 {
@@ -310,6 +311,11 @@ namespace TiendaVirtual
             usuarios user = new usuarios();
             cliente clientes = new cliente();
 
+            if (hdPasswordUsuario.Value != hdPasswordUsuario.Value)
+            {
+                return;
+            }
+
             string nombre_usuario = (hdNombreUsuario.Value + "." + hdApellidoUsuario.Value).ToLower();
 
             clientes.idusuario = nombre_usuario;
@@ -321,6 +327,8 @@ namespace TiendaVirtual
             user.usuario = nombre_usuario;
             user.correo = hdCorreoUsuario.Value;
             user.password = hdPasswordUsuario.Value;
+
+            
 
             if (Convert.ToInt32(dlTipoUsuario.SelectedValue) == 0)
             {
@@ -387,9 +395,26 @@ namespace TiendaVirtual
             usuarios user = new usuarios();
             cliente clientes = new cliente();
 
+            conexion_entidad cn = new conexion_entidad();
+
+            string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+            string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+            cn.database = database;
+            cn.server = server;
+            //cn.usuario = Session["sesion_usuario"].ToString();
+
             if (hdPasswordUsuario.Value != hdPasswordUsuario2.Value)
             {
                 return;
+            }
+
+            if(Convert.ToInt32(dpEstadoUsuario.SelectedValue) == 0)
+            {
+                clientes.estado = "0";
+            }
+            else
+            {
+                clientes.estado = dpEstadoUsuario.SelectedValue;
             }
 
             clientes.idusuario = hdIdUsuario.Value;
@@ -405,13 +430,22 @@ namespace TiendaVirtual
 
             if (update)
             {
-
+                string javaScript = "refreshUsuarios();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
             }
         }
 
         protected void lnkActualizarCliente_Click(object sender, EventArgs e)
         {
             cliente clientes = new cliente();
+
+            conexion_entidad cn = new conexion_entidad();
+
+            string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+            string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+            cn.database = database;
+            cn.server = server;
+            cn.usuario = Session["sesion_usuario"].ToString();
 
             clientes.idcliente = hdIdCliente.Value;
             clientes.idusuario = hdIdUserCliente.Value;
@@ -435,8 +469,37 @@ namespace TiendaVirtual
 
             if (update)
             {
-
+                string javaScript = "refreshClientes();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
             }
+        }
+
+        protected void lnkActualizarArticulo_Click(object sender, EventArgs e)
+        {
+            if (idCargarImagen.HasFile)
+            {
+
+                producto productos = new producto();
+
+                conexion_entidad cn = new conexion_entidad();
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+                cn.usuario = Session["sesion_usuario"].ToString();
+
+                
+
+                String fileName = idCargarImagen.FileName;
+                String ruta = Server.MapPath("~/images/") + fileName;
+                idCargarImagen.SaveAs(Server.MapPath("~/images/") + fileName);
+            }
+            else
+            {
+                return;
+            }
+
         }
     }
 }
