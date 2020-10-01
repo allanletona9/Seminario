@@ -22,5 +22,29 @@ namespace Logica
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static bool insertar_articulo(conexion_entidad cn_conexion,producto eProducto)
+        {
+            try
+            {
+                return datos_articulos.insertar_articulo(cn_conexion, eProducto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+        public static DataTable obtieneArticuloIndividual(conexion_entidad cn_conexion, producto eProducto)
+        {
+            try
+            {
+                return datos_articulos.obtieneArticuloIndividual(cn_conexion, eProducto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }
