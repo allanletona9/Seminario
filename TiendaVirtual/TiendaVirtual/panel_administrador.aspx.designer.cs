@@ -168,6 +168,15 @@ namespace TiendaVirtual
         protected global::System.Web.UI.WebControls.LinkButton lnkActualizarArticulo;
 
         /// <summary>
+        /// Control lnkLimpiarFotos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkLimpiarFotos;
+
+        /// <summary>
         /// Control hdIdUsuario.
         /// </summary>
         /// <remarks>
@@ -310,5 +319,23 @@ namespace TiendaVirtual
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdDescripcionArticulo;
+
+        /// <summary>
+        /// Control hdStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdStock;
+
+        /// <summary>
+        /// Control hdOtro.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdOtro;
     }
 }

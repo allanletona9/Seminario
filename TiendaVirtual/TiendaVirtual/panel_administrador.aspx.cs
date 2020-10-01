@@ -223,6 +223,55 @@ namespace TiendaVirtual
         }
 
         [WebMethod]
+        public static string obtenerArticuloIndividual(string idarticulo)
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                Entidades.producto eProducto = new Entidades.producto();
+                eProducto.idarticulo = idarticulo;
+
+                DataTable dt = logica_articulos.obtieneArticuloIndividual(cn, eProducto);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
+
+
+        
+
+        [WebMethod]
         public static string obtenerArticulos()
         {
 
@@ -476,10 +525,11 @@ namespace TiendaVirtual
 
         protected void lnkActualizarArticulo_Click(object sender, EventArgs e)
         {
+            bool insert;
             if (idCargarImagen.HasFile)
             {
 
-                producto productos = new producto();
+                Entidades.producto eProducto = new Entidades.producto();
 
                 conexion_entidad cn = new conexion_entidad();
 
@@ -489,17 +539,41 @@ namespace TiendaVirtual
                 cn.server = server;
                 cn.usuario = Session["sesion_usuario"].ToString();
 
-                
+                eProducto.nombre = hdNombreArticulo.Value;
+                eProducto.descripcion = hdDescripcionArticulo.Value;
+                eProducto.stock = hdStock.Value;
+                eProducto.otro = hdOtro.Value;
 
                 String fileName = idCargarImagen.FileName;
                 String ruta = Server.MapPath("~/images/") + fileName;
+                //idImagenCargada.ImageUrl = "../images/" + fileName;
                 idCargarImagen.SaveAs(Server.MapPath("~/images/") + fileName);
+
+                eProducto.ruta = ruta;
+
+                 
+                insert = logica_articulos.insertar_articulo(cn, eProducto);
             }
             else
             {
                 return;
             }
 
+            if (insert)
+            {
+                idCargarImagen.Attributes.Clear();
+                idCargarImagen.PostedFile.InputStream.Dispose();
+                idCargarImagen.Dispose();
+
+            }
+
+        }
+
+        protected void lnkLimpiarFotos_Click(object sender, EventArgs e)
+        {
+            idCargarImagen.Attributes.Clear();
+            //idCargarImagen.PostedFile.InputStream.Dispose();
+            idCargarImagen.Dispose();
         }
     }
 }

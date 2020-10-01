@@ -62,7 +62,9 @@
 
         var refreshUsuarios;
         var refreshClientes;
+        var refreshArticulos;
         var identificador_usuario = 0;
+        var identificador_articulo = 0;
 
         function cerrarSesion() {
             document.getElementById("lnkCerrarSesion").click();
@@ -138,6 +140,7 @@
         }
 
         function nuevoArticulo() {
+
             document.getElementById("articulos").style.display = "none";
             document.getElementById("edicionarticulo").style.display = "block";
         }
@@ -162,6 +165,12 @@
             document.getElementById("usuarios").style.display = "block";
             document.getElementById("edicion_usuario").style.display = "none";
             refreshUsuarios();
+        }
+
+        function cancelarArticulo() {
+            document.getElementById("articulos").style.display = "block";
+            document.getElementById("edicionarticulo").style.display = "none";
+            refreshArticulos();
         }
         function guardarUsuario() {
             if (identificador_usuario == 0) {
@@ -241,24 +250,41 @@
         }
 
         function actualizarArticulo() {
-            document.getElementById("hdNombreArticulo").value = document.getElementById("txtNombreArticulo").value;
-            document.getElementById("hdDescripcionArticulo").value = document.getElementById("txtDescripcionArticulo").value;
+            if (identificador_articulo == 0) {
+                document.getElementById("hdNombreArticulo").value = document.getElementById("txtNombreArticulo").value;
+                document.getElementById("hdDescripcionArticulo").value = document.getElementById("txtDescripcionArticulo").value;
+                document.getElementById("hdStock").value = document.getElementById("txtStock").value;
+                document.getElementById("hdOtro").value = document.getElementById("txtOtro").value;
 
-            document.getElementById("lnkActualizarArticulo").click();
+                document.getElementById("lnkActualizarArticulo").click();
 
-            //document.getElementById("clientes").style.display = "block";
-            //document.getElementById("edicioncliente").style.display = "none";
+                document.getElementById("articulos").style.display = "block";
+                document.getElementById("edicionarticulo").style.display = "none";
 
-            //document.getElementById("txtIdCliente").value = "";
-            //document.getElementById("txtIdUsuarioCliente").value = "";
-            //document.getElementById("txtNombreCliente").value = "";
-            //document.getElementById("txtApellidoCliente").value = "";
-            //document.getElementById("txtTelefonoCliente").value = "";
-            //document.getElementById("txtIdentificacionCliente").value = "";
-            //document.getElementById("txtEmailCliente").value = "";
-            //document.getElementById("txtNitCliente").value = "";
+                document.getElementById("txtNombreArticulo").value = "";
+                document.getElementById("txtDescripcionArticulo").value = "";
+                document.getElementById("txtStock").value = "";
+                document.getElementById("txtOtro").value = "";
+
+                document.getElementById("lnkLimpiarFotos").click();
+                
+            } else {
+                alert("Edicion");
+            }
+            
         }
-        
+
+
+        function showimagepreview(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementsByTagName("img")[0].setAttribute("src", e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
         
         function editarClientes(id) {
             document.getElementById("clientes").style.display = "none";
@@ -334,12 +360,54 @@
                     } catch (error) {
                         console.error(error);
                     }
+        }
+
+
+        function editarArticulo(id) {
+
+            identificador_articulo = 1;
+            document.getElementById("articulos").style.display = "none";
+            document.getElementById("edicionarticulo").style.display = "block";
+
+            try {
+                $.ajax({
+                    url: '<%= ResolveUrl("panel_administrador.aspx/obtenerArticuloIndividual") %>',
+                            method: 'post',
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: false,
+                    data: '{"idarticulo":"' + id + '"'
+                                + '}',
+                            success: function (data) {
+
+                                if (data.d) {
+                                    console.log(data.d);
+                                    var articulo = $.parseJSON(data.d);
+                                    document.getElementById("txtIdArticulo").value = articulo[0].idARTICULO;
+                                    document.getElementById("txtNombreArticulo").value = articulo[0].nombre;
+                                    document.getElementById("txtDescripcionArticulo").value = articulo[0].descripcion;
+                                    document.getElementById("txtStock").value = articulo[0].stock;
+                                    document.getElementById("txtOtro").value = articulo[0].otro;
+                                    
+                                }
+                            },
+                            error: function (err) {
+                                console.error(err);
+                            }
+                        });
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
 
         $(document).ready(function () {
 
             refreshUsuarios = function () {
                 $('#tblUsuarios').DataTable().ajax.reload();
+            }
+
+            refreshArticulos = function () {
+                $('#tblArticulos').DataTable().ajax.reload();
             }
 
             refreshClientes = function () {
@@ -544,6 +612,7 @@
                         }
                     },
                     destroy: true,
+                    processing: true,
                     columns: [
                         { "data": "idarticulo" },
                         { "data": "nombre" },
@@ -614,7 +683,7 @@
 
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span><a href='#'>Editar</a></span>";
+                                return "<span><a href='#' onclick='editarArticulo("+row.idarticulo+")'>Editar</a></span>";
                             },
                         },
                         {
@@ -766,27 +835,27 @@
                  <div id="clientes" style="display:none">
                      <asp:Button runat="server" id="btnNuevoCliente" Text="Nuevo Cliente"/>
                     <h1>Mantenimiento de Clientes</h1>
-                    <table id="tblClientes">
+                    <table id="tblClientes" class="table table-striped table-bordered">
                     </table>
                 </div>
 
                  <div id="articulos" style="display:none">
                      <input type="button" onclick="nuevoArticulo()" value="Nuevo Articulo"/>
                     <h1>Mantenimiento de Articulos</h1>
-                    <table id="tblArticulos">
+                    <table id="tblArticulos" class="table table-striped table-bordered">
                     </table>
                 </div>
 
                 <div id="pedidos" style="display:none">
                     <h1>Pedidos</h1>
-                    <table id="tblPedidos">
+                    <table id="tblPedidos" class="table table-striped table-bordered">
                     </table>
                 </div>
 
                 <div id="usuarios" style="display:none">
                     <input type="button" onclick="nuevoUsuario()" value="Nuevo Usuario"/>
                     <h1>Mantenimiento de Usuarios</h1>
-                    <table id="tblUsuarios">
+                    <table id="tblUsuarios" class="table table-striped table-bordered">
                     </table>
                 </div>
 
@@ -967,10 +1036,24 @@
                             <div class="col-md-12">
                                 <label>Foto</label>
                                 <br />
-                                   <asp:FileUpload ID="idCargarImagen" runat="server" />
+                                   <asp:FileUpload ID="idCargarImagen" runat="server" onchange="showimagepreview(this)"/>
                                 <br />
                                 <br />
-                                <asp:Image ID="idImagenCargada" runat="server" Width="200"/>
+                                <asp:Image ID="idImagenCargada" runat="server" Width="500" />
+                                <img src="" alt="Sample Photo" id="imagen_cargada" />
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Stock</label>
+                                   <input type="text" id="txtStock" class="form-control" placeholder="Stock"/>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Otro</label>
+                                   <input type="text" id="txtOtro" class="form-control" placeholder="Ingrese comentarios adicionales al producto (opcional)"/>
                             </div>
                         </div>
 
@@ -984,9 +1067,11 @@
                             </div>
                         </div>
 
+
                         <div class="form-group">
                             <div class="col-md-12 text-center">
                                 <input type="button" class="btn btn-primary btn-lg" onclick="actualizarArticulo()" value="Guardar" />
+                                <input type="button" class="btn btn-primary btn-lg" onclick="cancelarArticulo()" value="Cancelar" />
                             </div>
                         </div>
 
@@ -1101,6 +1186,7 @@
                 <asp:LinkButton runat="server" ID="lnkActualizarMiCuenta" ClientIDMode="Static" OnClick="lnkActualizarMiCuenta_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkActualizarCliente" ClientIDMode="Static" OnClick="lnkActualizarCliente_Click"></asp:LinkButton>
                  <asp:LinkButton runat="server" ID="lnkActualizarArticulo" ClientIDMode="Static" OnClick="lnkActualizarArticulo_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkLimpiarFotos" ClientIDMode="Static" OnClick="lnkLimpiarFotos_Click"></asp:LinkButton>
                 
                 
                  <asp:HiddenField runat="server" ID="hdIdUsuario" ClientIDMode="Static" value=""/>
@@ -1121,13 +1207,17 @@
 
                 <asp:HiddenField runat="server" ID="hdNombreArticulo" ClientIDMode="Static" value=""/>
                 <asp:HiddenField runat="server" ID="hdDescripcionArticulo" ClientIDMode="Static" value=""/>
+                 <asp:HiddenField runat="server" ID="hdStock" ClientIDMode="Static" value=""/>
+                <asp:HiddenField runat="server" ID="hdOtro" ClientIDMode="Static" value=""/>
 
 
 
             </ContentTemplate>
             <Triggers>
-   <asp:PostBackTrigger ControlID="lnkActualizarArticulo" />
-</Triggers>
+               <asp:PostBackTrigger ControlID="lnkActualizarArticulo" />
+                <asp:AsyncPostBackTrigger ControlID="lnkLimpiarFotos"/>
+
+            </Triggers>
         </asp:UpdatePanel>
     </form>
 
