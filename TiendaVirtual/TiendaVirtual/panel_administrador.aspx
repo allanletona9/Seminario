@@ -44,6 +44,10 @@
     font-size: 35px;
     color: #36A0FF;
 }
+
+        .dataTables_filter {
+            float: left !important;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +82,7 @@
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("edicion_usuario").style.display = "none";
+            document.getElementById("edicionarticulo").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             micuenta();
         }
@@ -90,6 +95,7 @@
             document.getElementById("articulos").style.display = "none";
             document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("edicion_usuario").style.display = "none";
+            document.getElementById("edicionarticulo").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             clientes();
@@ -102,6 +108,7 @@
             document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("edicion_usuario").style.display = "none";
+            document.getElementById("edicionarticulo").style.display = "none";
             document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
@@ -115,6 +122,7 @@
             document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("edicion_usuario").style.display = "none";
+            document.getElementById("edicionarticulo").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
@@ -128,6 +136,7 @@
             document.getElementById("edicionmicuenta").style.display = "none";
             document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("edicion_usuario").style.display = "none";
+            document.getElementById("edicionarticulo").style.display = "none";
             document.getElementById("clientes").style.display = "none";
             document.getElementById("articulos").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
@@ -276,7 +285,7 @@
 
 
         function showimagepreview(input) {
-
+            document.getElementById("imagen_cargada").style.display = "block";
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
@@ -388,6 +397,8 @@
                                     document.getElementById("txtDescripcionArticulo").value = articulo[0].descripcion;
                                     document.getElementById("txtStock").value = articulo[0].stock;
                                     document.getElementById("txtOtro").value = articulo[0].otro;
+                                    document.getElementById("imagen_cargada").style.display = "block";
+                                    document.getElementById("imagen_cargada").src = articulo[0].ruta_imagen;
                                     
                                 }
                             },
@@ -432,6 +443,19 @@
                     destroy: true,
                     paginate: false,
                     scrollY: window.innerHeight - 300 + 'px',
+                    "language": {
+                        "loadingRecords": "Cargando...",
+                        "processing": "Cargando...",
+                        "emptyTable": "No Hay Informacion de usuarios",
+                        "paginate": {
+                            "first": "Primera",
+                            "previous": "Anterior",
+                            "next": "Siguiente",
+                            "last": "Ultimo"
+                        }
+                        , "search": "", "searchPlaceholder": "Buscar",
+                        "lengthMenu": "No. de registros por Página _MENU_ ",
+                    },
                     columns: [
                         { "data": "idUSUARIO" },
                         { "data": "descripcion" },
@@ -514,7 +538,23 @@
                             return $.parseJSON(data.d);
                         }
                     },
+                    processing: true,
                     destroy: true,
+                    paginate: false,
+                    scrollY: window.innerHeight - 300 + 'px',
+                    "language": {
+                        "loadingRecords": "Cargando...",
+                        "processing": "Cargando...",
+                        "emptyTable": "No Hay Informacion de clientes",
+                        "paginate": {
+                            "first": "Primera",
+                            "previous": "Anterior",
+                            "next": "Siguiente",
+                            "last": "Ultimo"
+                        }
+                        , "search": "", "searchPlaceholder": "Buscar",
+                        "lengthMenu": "No. de registros por Página _MENU_ ",
+                    },
                     columns: [
                         { "data": "idcliente" },
                         { "data": "nombre" },
@@ -528,7 +568,7 @@
                             targets: [1],
                             orderable: false,
                             title: "Id Cliente",
-                            width: "20%",
+                            width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.idcliente + "</span>";
                             },
@@ -538,7 +578,7 @@
                             targets: [2],
                             orderable: false,
                             title: "Nombre",
-                            width: "20%",
+                            width: "15%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.nombre + "</span>";
                             },
@@ -547,7 +587,7 @@
                             "targets": [3],
                             orderable: false,
                             title: "Apellido",
-                            width: "10%",
+                            width: "15%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.apellido + "</span>";
                             },
@@ -611,8 +651,23 @@
                             return $.parseJSON(data.d);
                         }
                     },
-                    destroy: true,
                     processing: true,
+                    destroy: true,
+                    paginate: false,
+                    scrollY: window.innerHeight - 300 + 'px',
+                    "language": {
+                        "loadingRecords": "Cargando...",
+                        "processing": "Cargando...",
+                        "emptyTable": "No Hay Informacion de articulos",
+                        "paginate": {
+                            "first": "Primera",
+                            "previous": "Anterior",
+                            "next": "Siguiente",
+                            "last": "Ultimo"
+                        }
+                        , "search": "", "searchPlaceholder": "Buscar",
+                        "lengthMenu": "No. de registros por Página _MENU_ ",
+                    },
                     columns: [
                         { "data": "idarticulo" },
                         { "data": "nombre" },
@@ -626,7 +681,7 @@
                             targets: [1],
                             orderable: false,
                             title: "Id Articulo",
-                            width: "20%",
+                            width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.idarticulo + "</span>";
                             },
@@ -636,7 +691,7 @@
                             targets: [2],
                             orderable: false,
                             title: "Nombre",
-                            width: "20%",
+                            width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.nombre + "</span>";
                             },
@@ -709,7 +764,23 @@
                             return $.parseJSON(data.d);
                         }
                     },
+                    processing: true,
                     destroy: true,
+                    paginate: false,
+                    scrollY: window.innerHeight - 300 + 'px',
+                    "language": {
+                        "loadingRecords": "Cargando...",
+                        "processing": "Cargando...",
+                        "emptyTable": "No Hay Informacion de pedidos",
+                        "paginate": {
+                            "first": "Primera",
+                            "previous": "Anterior",
+                            "next": "Siguiente",
+                            "last": "Ultimo"
+                        }
+                        , "search": "", "searchPlaceholder": "Buscar",
+                        "lengthMenu": "No. de registros por Página _MENU_ ",
+                    },
                     columns: [
                         { "data": "idPEDIDO" },
                         { "data": "fechaPedido" },
@@ -833,28 +904,30 @@
                 </div>
 
                  <div id="clientes" style="display:none">
-                     <asp:Button runat="server" id="btnNuevoCliente" Text="Nuevo Cliente"/>
-                    <h1>Mantenimiento de Clientes</h1>
+                    <h1>Listado de Clientes</h1>
+                     <br />
                     <table id="tblClientes" class="table table-striped table-bordered">
                     </table>
                 </div>
 
                  <div id="articulos" style="display:none">
-                     <input type="button" onclick="nuevoArticulo()" value="Nuevo Articulo"/>
-                    <h1>Mantenimiento de Articulos</h1>
+                     <input type="button" onclick="nuevoArticulo()" value="Nuevo Articulo" class="btn btn-info" style="float:right"/>
+                    <h1>Listado de Articulos</h1>
                     <table id="tblArticulos" class="table table-striped table-bordered">
                     </table>
                 </div>
 
                 <div id="pedidos" style="display:none">
                     <h1>Pedidos</h1>
+                     <br />
                     <table id="tblPedidos" class="table table-striped table-bordered">
                     </table>
                 </div>
 
                 <div id="usuarios" style="display:none">
-                    <input type="button" onclick="nuevoUsuario()" value="Nuevo Usuario"/>
-                    <h1>Mantenimiento de Usuarios</h1>
+                    <input type="button" onclick="nuevoUsuario()" value="Nuevo Usuario" class="btn btn-info" style="float:right"/>
+                    <h1>Listado de Usuarios</h1>
+                     <br />
                     <table id="tblUsuarios" class="table table-striped table-bordered">
                     </table>
                 </div>
@@ -943,7 +1016,8 @@
 
                 </div>
 
-                <div class="padre" style="display:none" id="edicionmicuenta">
+                <div class="padre" style="                        display: none
+                " id="edicionmicuenta">
                   <div class="hijo">                    <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -1039,8 +1113,8 @@
                                    <asp:FileUpload ID="idCargarImagen" runat="server" onchange="showimagepreview(this)"/>
                                 <br />
                                 <br />
-                                <asp:Image ID="idImagenCargada" runat="server" Width="500" />
-                                <img src="" alt="Sample Photo" id="imagen_cargada" />
+   
+                                <img src="" alt="Sample Photo" id="imagen_cargada" width="500" style="display:none" />
                             </div>
                         </div>
 
@@ -1215,8 +1289,6 @@
             </ContentTemplate>
             <Triggers>
                <asp:PostBackTrigger ControlID="lnkActualizarArticulo" />
-                <asp:AsyncPostBackTrigger ControlID="lnkLimpiarFotos"/>
-
             </Triggers>
         </asp:UpdatePanel>
     </form>
