@@ -545,14 +545,25 @@ namespace TiendaVirtual
                 eProducto.otro = hdOtro.Value;
 
                 String fileName = idCargarImagen.FileName;
-                String ruta = Server.MapPath("~/images/") + fileName;
+                //String ruta = Server.MapPath("~/images/") + fileName;
+                String ruta = "/images/" + fileName;
                 //idImagenCargada.ImageUrl = "../images/" + fileName;
                 idCargarImagen.SaveAs(Server.MapPath("~/images/") + fileName);
 
                 eProducto.ruta = ruta;
 
-                 
-                insert = logica_articulos.insertar_articulo(cn, eProducto);
+                DataTable dt = logica_articulos.obtieneArticuloIndividual(cn, eProducto); 
+
+                if(dt.Rows.Count > 0)
+                {
+                    return;
+                }
+                else
+                {
+                    insert = logica_articulos.insertar_articulo(cn, eProducto);
+                }
+
+                
             }
             else
             {

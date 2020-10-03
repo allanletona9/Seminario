@@ -42,15 +42,6 @@ namespace TiendaVirtual
         protected global::System.Web.UI.WebControls.Label NombreUsuario;
 
         /// <summary>
-        /// Control btnNuevoCliente.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevoCliente;
-
-        /// <summary>
         /// Control dlTipoUsuario.
         /// </summary>
         /// <remarks>
@@ -76,15 +67,6 @@ namespace TiendaVirtual
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload idCargarImagen;
-
-        /// <summary>
-        /// Control idImagenCargada.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image idImagenCargada;
 
         /// <summary>
         /// Control dpEstadoArticulo.

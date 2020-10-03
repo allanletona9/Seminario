@@ -71,7 +71,7 @@ namespace Datos
         {
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
 
-            string sCliente = "SELECT * FROM ARTICULO WHERE idARTICULO = '" + eProducto.idarticulo + "'";
+            string sCliente = "SELECT * FROM ARTICULO WHERE idARTICULO = '" + eProducto.idarticulo + "' OR ruta_imagen = '"+eProducto.ruta+"'";
             SqlCommand sqlObtieneClientes = new SqlCommand(sCliente, sqlConexion);
 
             try
