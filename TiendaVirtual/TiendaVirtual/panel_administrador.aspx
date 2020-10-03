@@ -47,7 +47,18 @@
 
         .dataTables_filter {
             float: left !important;
+              
         }
+
+        .dataTables_filter  input {
+            border-radius: 5px !important; 
+            font-family: Roboto, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            width: 400px;
+
+            margin: 2px;
+            text-align: left;
+           }
     </style>
 </head>
 <body>
@@ -99,6 +110,7 @@
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             clientes();
+
         }
 
         function mostrarArticulos() {
@@ -113,6 +125,7 @@
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
             articulos();
+            refreshArticulos();
         }
 
         function mostrarPedidos() {
@@ -141,6 +154,7 @@
             document.getElementById("articulos").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             usuarios();
+            refreshUsuarios();
         }
 
         function nuevoUsuario() {
@@ -465,8 +479,8 @@
                     "columnDefs": [
                         {
                             targets: [1],
-                            orderable: false,
-                            title: "Usuario",
+                            orderable: true,
+                            title: "<p style='align:left'>Usuario</p>",
                             width: "20%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.idUSUARIO + "</span>";
@@ -475,8 +489,8 @@
 
                         {
                             targets: [2],
-                            orderable: false,
-                            title: "Tipo Cliente",
+                            orderable: true,
+                            title: "<p style='align:left'>Tipo Cliente</p>",
                             width: "20%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.descripcion + "</span>";
@@ -484,17 +498,17 @@
                         },
                         {
                             "targets": [3],
-                            orderable: false,
-                            title: "Correo",
-                            width: "10%",
+                            orderable: true,
+                            title: "<p style='align:left'>Correo</p>",
+                            width: "20%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.correo + "</span>";
                             },
                         },
                         {
                             "targets": [4],
-                            orderable: false,
-                            title: "Estado",
+                            orderable: true,
+                            title: "<p style='align:left'>Estado</p>",
                             width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.estado + "</span>";
@@ -502,7 +516,7 @@
                         },
                         {
                             "targets": [5],
-                            orderable: false,
+                            orderable: true,
 
                             width: "10%",
                             render: function (data, type, row, meta) {
@@ -567,7 +581,7 @@
                         {
                             targets: [1],
                             orderable: false,
-                            title: "Id Cliente",
+                            title: "<p style='align:left'>Id Cliente</p>",
                             width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.idcliente + "</span>";
@@ -577,8 +591,8 @@
                         {
                             targets: [2],
                             orderable: false,
-                            title: "Nombre",
-                            width: "15%",
+                            title: "<p style='align:left'>Nombre</p>",
+                            width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.nombre + "</span>";
                             },
@@ -586,8 +600,8 @@
                         {
                             "targets": [3],
                             orderable: false,
-                            title: "Apellido",
-                            width: "15%",
+                            title: "<p style='align:left'>Apellido</p>",
+                            width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.apellido + "</span>";
                             },
@@ -595,7 +609,7 @@
                         {
                             "targets": [4],
                             orderable: false,
-                            title: "Telefono",
+                            title: "<p style='align:left'>Telefono</p>",
                             width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.telefono + "</span>";
@@ -604,8 +618,8 @@
                         {
                             "targets": [5],
                             orderable: false,
-                            title: "Email",
-                            width: "10%",
+                            title: "<p style='align:left'>Email</p>",
+                            width: "15%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.email + "</span>";
                             },
@@ -613,7 +627,7 @@
                         {
                             "targets": [6],
                             orderable: false,
-                            title: "Estado",
+                            title: "<p style='align:left'>Estado</p>",
                             width: "10%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.estado + "</span>";
@@ -720,7 +734,7 @@
                             title: "Stock",
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span>" + row.stock + "</span>";
+                                return "<center><span>" + row.stock + "</span></center>";
                             },
                         },
                         {
@@ -729,7 +743,7 @@
                             title: "Estado",
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span>" + row.estado + "</span>";
+                                return "<center><span>" + row.estado + "</span></center>";
                             },
                         },
                         {
@@ -857,10 +871,11 @@
                 <div class="custom-menu">
 
                 </div>
+
                 <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
                     <div class="user-logo">
-                        <div class="img" style="background-image: url(images/logo.jpg);"></div>
-                        <asp:Label ID="NombreUsuario" runat="server"></asp:Label>
+                       
+                        <asp:Label ID="NombreUsuario" runat="server" Font-Size="Large" Font-Bold="true"></asp:Label>
                     </div>
                 </div>
                 <ul class="list-unstyled components mb-5">
@@ -904,31 +919,31 @@
                 </div>
 
                  <div id="clientes" style="display:none">
-                    <h1>Listado de Clientes</h1>
+                    <h1><center><legend class="text-center header">Listado de Clientes</legend></center></h1>
                      <br />
-                    <table id="tblClientes" class="table table-striped table-bordered">
+                    <table id="tblClientes" class="table ">
                     </table>
                 </div>
 
                  <div id="articulos" style="display:none">
                      <input type="button" onclick="nuevoArticulo()" value="Nuevo Articulo" class="btn btn-info" style="float:right"/>
-                    <h1>Listado de Articulos</h1>
-                    <table id="tblArticulos" class="table table-striped table-bordered">
+                    <h1><center><legend class="text-center header">Listado de articulos</legend></center></h1>
+                    <table id="tblArticulos" class="table">
                     </table>
                 </div>
 
                 <div id="pedidos" style="display:none">
-                    <h1>Pedidos</h1>
+                    <h1><center><legend class="text-center header">Pedidos</legend></center></h1>
                      <br />
-                    <table id="tblPedidos" class="table table-striped table-bordered">
+                    <table id="tblPedidos" class="table">
                     </table>
                 </div>
 
                 <div id="usuarios" style="display:none">
                     <input type="button" onclick="nuevoUsuario()" value="Nuevo Usuario" class="btn btn-info" style="float:right"/>
-                    <h1>Listado de Usuarios</h1>
+                     <h1><center><legend class="text-center header">Listado de usuarios</legend></center></h1>
                      <br />
-                    <table id="tblUsuarios" class="table table-striped table-bordered">
+                    <table id="tblUsuarios" class="table">
                     </table>
                 </div>
 
@@ -938,7 +953,7 @@
         <div class="col-md-12">
             <div class="well well-sm">
                     <fieldset>
-                        <legend class="text-center header">Nuevo Usuario</legend>
+                        <h1><legend class="text-center header">Nuevo Usuario</legend></h1>
 
                         <div class="form-group" style="display:none">
                             <div class="col-md-12">
@@ -1023,9 +1038,9 @@
         <div class="col-md-12">
             <div class="well well-sm">
                     <fieldset>
-                        <legend class="text-center header">Mi Cuenta</legend>
+                        <h1><center><legend class="text-center header">Mi Cuenta</legend></center></h1>
 
-                        <div class="form-group" style="display:block">
+                        <div class="form-group" style=" display: block">
                             <div class="col-md-12">
                                  <label>ID Usuario</label>
                                 <input type="text" id="txtIdUsuarioM" class="form-control" placeholder="Nombre Usuario" disabled/>
@@ -1114,7 +1129,7 @@
                                 <br />
                                 <br />
    
-                                <img src="" alt="Sample Photo" id="imagen_cargada" width="500" style="display:none" />
+                                <img src="" alt="Sample Photo" id="imagen_cargada" width="400" height="250" style="display:none" />
                             </div>
                         </div>
 
