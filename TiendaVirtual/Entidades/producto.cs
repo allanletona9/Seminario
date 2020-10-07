@@ -9,7 +9,7 @@ namespace Entidades
     public class producto
     {
         string _idarticulo;
-        string _idproveedor;
+        string _idcategoria;
         string _nombre;
         string _descripcion;
         string _ruta;
@@ -29,15 +29,15 @@ namespace Entidades
             }
         }
 
-        public string idproveedor
+        public string idcategoria
         {
             get
             {
-                return _idproveedor;
+                return _idcategoria;
             }
             set
             {
-                _idproveedor = value;
+                _idcategoria = value;
             }
         }
         public string nombre

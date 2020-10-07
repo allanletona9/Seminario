@@ -30,6 +30,11 @@ namespace TiendaVirtual
 
                 NombreUsuario.Text = Session["sesion_usuario"].ToString();
 
+                if (!IsPostBack)
+                {
+                    cargarDropDownCategorias();
+                }
+
             }
             catch (Exception err)
             {
@@ -552,6 +557,16 @@ namespace TiendaVirtual
 
                 eProducto.ruta = ruta;
 
+                eProducto.idcategoria = dpCategorias.SelectedValue;
+                if (Convert.ToInt32(dpEstadoArticulo.SelectedValue) == 0)
+                {
+                    eProducto.estado = "0";
+                }
+                else
+                {
+                    eProducto.estado = dpEstadoArticulo.SelectedValue;
+                }
+
                 DataTable dt = logica_articulos.obtieneArticuloIndividual(cn, eProducto); 
 
                 if(dt.Rows.Count > 0)
@@ -589,6 +604,30 @@ namespace TiendaVirtual
             
         }
 
+        protected void cargarDropDownCategorias()
+        {
+            dpCategorias.Items.Clear();
+            conexion_entidad cn = new conexion_entidad();
+
+            string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+            string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+            cn.database = database;
+            cn.server = server;
+
+            DataTable dt = logica_articulos.obtenerCategorias(cn);
+
+            
+
+            foreach(DataRow row in dt.Rows)
+            {
+                dpCategorias.Items.Add(new ListItem
+                {
+                    Value = row["id"].ToString(),
+                    Text = row["descripcion"].ToString()
+                });
+            }
+        }
+
         protected void lnkActualizarArticuloExistente_Click(object sender, EventArgs e)
         {
             bool insert;
@@ -611,12 +650,20 @@ namespace TiendaVirtual
                 eProducto.otro = hdOtro.Value;
 
                 String fileName = idCargarImagen.FileName;
-                //String ruta = Server.MapPath("~/images/") + fileName;
                 String ruta = "/images/" + fileName;
-                //idImagenCargada.ImageUrl = "../images/" + fileName;
                 idCargarImagen.SaveAs(Server.MapPath("~/images/") + fileName);
 
                 eProducto.ruta = ruta;
+
+                eProducto.idcategoria = dpCategorias.SelectedValue;
+                if (Convert.ToInt32(dpEstadoArticulo.SelectedValue) == 0)
+                {
+                    eProducto.estado = "0";
+                }
+                else
+                {
+                    eProducto.estado = dpEstadoArticulo.SelectedValue;
+                }
 
                 insert = logica_articulos.actualizar_articulo(cn, eProducto);
 

@@ -1146,6 +1146,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Categoria</label>
+                                  <asp:DropDownList runat="server" ID="dpCategorias" CssClass="form-control">
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        
+
                          <div class="form-group">
                             <div class="col-md-12">
                                 <label>Foto</label>
@@ -1184,7 +1194,6 @@
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <asp:Button runat="server" ID="btnActArt" OnClick="lnkActualizarArticuloExistente_Click"/>
                                 <input type="button" class="btn btn-primary btn-lg" onclick="actualizarArticulo()" value="Guardar" />
                                 <input type="button" class="btn btn-primary btn-lg" onclick="cancelarArticulo()" value="Cancelar" />
                             </div>
