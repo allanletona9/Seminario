@@ -78,6 +78,15 @@ namespace TiendaVirtual
         protected global::System.Web.UI.WebControls.DropDownList dpEstadoArticulo;
 
         /// <summary>
+        /// Control btnActArt.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActArt;
+
+        /// <summary>
         /// Control dpEstadoCliente.
         /// </summary>
         /// <remarks>
@@ -157,6 +166,15 @@ namespace TiendaVirtual
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkLimpiarFotos;
+
+        /// <summary>
+        /// Control lnkActualizarArticuloExistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkActualizarArticuloExistente;
 
         /// <summary>
         /// Control hdIdUsuario.
@@ -283,6 +301,15 @@ namespace TiendaVirtual
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdNITCliente;
+
+        /// <summary>
+        /// Control hdIdArticulo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdIdArticulo;
 
         /// <summary>
         /// Control hdNombreArticulo.

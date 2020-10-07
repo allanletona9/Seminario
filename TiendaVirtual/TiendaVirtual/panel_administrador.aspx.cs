@@ -585,6 +585,58 @@ namespace TiendaVirtual
             idCargarImagen.Attributes.Clear();
             //idCargarImagen.PostedFile.InputStream.Dispose();
             idCargarImagen.Dispose();
+
+            
+        }
+
+        protected void lnkActualizarArticuloExistente_Click(object sender, EventArgs e)
+        {
+            bool insert;
+            if (idCargarImagen.HasFile)
+            {
+
+                Entidades.producto eProducto = new Entidades.producto();
+
+                conexion_entidad cn = new conexion_entidad();
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                eProducto.idarticulo = hdIdArticulo.Value;
+                eProducto.nombre = hdNombreArticulo.Value;
+                eProducto.descripcion = hdDescripcionArticulo.Value;
+                eProducto.stock = hdStock.Value;
+                eProducto.otro = hdOtro.Value;
+
+                String fileName = idCargarImagen.FileName;
+                //String ruta = Server.MapPath("~/images/") + fileName;
+                String ruta = "/images/" + fileName;
+                //idImagenCargada.ImageUrl = "../images/" + fileName;
+                idCargarImagen.SaveAs(Server.MapPath("~/images/") + fileName);
+
+                eProducto.ruta = ruta;
+
+                insert = logica_articulos.actualizar_articulo(cn, eProducto);
+
+
+            }
+            else
+            {
+                return;
+            }
+
+            if (insert)
+            {
+                idCargarImagen.Attributes.Clear();
+                idCargarImagen.PostedFile.InputStream.Dispose();
+                idCargarImagen.Dispose();
+                string javaScript = "mostrarArticulos();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+
+
+            }
         }
     }
 }

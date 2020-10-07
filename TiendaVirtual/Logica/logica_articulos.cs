@@ -46,5 +46,17 @@ namespace Logica
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static bool actualizar_articulo(conexion_entidad cn_conexion, producto eProducto)
+        {
+            try
+            {
+                return datos_articulos.actualizar_articulo(cn_conexion, eProducto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }
