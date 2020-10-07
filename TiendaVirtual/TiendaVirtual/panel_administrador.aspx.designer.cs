@@ -60,6 +60,15 @@ namespace TiendaVirtual
         protected global::System.Web.UI.WebControls.DropDownList dpEstadoUsuario;
 
         /// <summary>
+        /// Control dpCategorias.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dpCategorias;
+
+        /// <summary>
         /// Control idCargarImagen.
         /// </summary>
         /// <remarks>
@@ -76,15 +85,6 @@ namespace TiendaVirtual
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dpEstadoArticulo;
-
-        /// <summary>
-        /// Control btnActArt.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActArt;
 
         /// <summary>
         /// Control dpEstadoCliente.

@@ -41,8 +41,8 @@ namespace Datos
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
 
 
-            string sArticulo = "INSERT INTO ARTICULO(nombre, descripcion, ruta_imagen, stock, otro, estado) " +
-                "VALUES('"+eProducto.nombre+"','"+eProducto.descripcion+"','"+eProducto.ruta+"','"+eProducto.stock+"','"+eProducto.otro+"',1)";
+            string sArticulo = "INSERT INTO ARTICULO(nombre, descripcion, ruta_imagen, stock, otro, idCategoria ,estado) " +
+                "VALUES('"+eProducto.nombre+"','"+eProducto.descripcion+"','"+eProducto.ruta+"','"+eProducto.stock+"','"+eProducto.otro+"','"+eProducto.idcategoria+"', '"+eProducto.estado+"')";
             SqlCommand sqlInsertarArticulo = new SqlCommand(sArticulo, sqlConexion);
 
             sqlConexion.Open();
@@ -92,11 +92,36 @@ namespace Datos
             }
         }
 
+        public static DataTable obtenerCategorias(conexion_entidad cn_conexion)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+
+            string sCategoria = "SELECT * FROM CATEGORIA";
+            SqlCommand sqObtieneCategorias = new SqlCommand(sCategoria, sqlConexion);
+
+            try
+            {
+                DataTable dtClients = new DataTable("obtiene_categorias");
+                SqlDataAdapter sqlClientes = new SqlDataAdapter();
+                sqlClientes.SelectCommand = sqObtieneCategorias;
+                sqlClientes.Fill(dtClients);
+
+                sqlConexion.Close();
+
+                return dtClients;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
         public static bool actualizar_articulo(conexion_entidad cn_conexion, producto eProducto)
         {
             SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
 
-            string sArticulo = "UPDATE ARTICULO SET nombre = '"+eProducto.nombre+"', descripcion = '"+ eProducto.descripcion + "', ruta_imagen = '"+ eProducto.ruta + "', stock = '"+ eProducto.stock + "', otro = '"+ eProducto.otro+ "', estado = '"+ eProducto.estado+ "' " +
+            string sArticulo = "UPDATE ARTICULO SET nombre = '"+eProducto.nombre+"', descripcion = '"+ eProducto.descripcion + "', ruta_imagen = '"+ eProducto.ruta + "', stock = '"+ eProducto.stock + "', otro = '"+ eProducto.otro+ "', idCategoria = '"+eProducto.idcategoria+"', estado = '"+ eProducto.estado+ "' " +
                 "WHERE idARTICULO = '"+eProducto.idarticulo+"'";
             SqlCommand sqlUpdateArticulo = new SqlCommand(sArticulo, sqlConexion);
 

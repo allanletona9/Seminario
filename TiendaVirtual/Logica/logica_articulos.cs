@@ -47,6 +47,18 @@ namespace Logica
             }
         }
 
+        public static DataTable obtenerCategorias(conexion_entidad cn_conexion)
+        {
+            try
+            {
+                return datos_articulos.obtenerCategorias(cn_conexion);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
         public static bool actualizar_articulo(conexion_entidad cn_conexion, producto eProducto)
         {
             try
