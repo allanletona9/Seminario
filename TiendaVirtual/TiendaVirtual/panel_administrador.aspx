@@ -65,7 +65,7 @@
     <script type="text/javascript">
         var micuenta;
         var clientes;
-        var articulos;
+        var articulo;
         var pedidos;
         var usuarios;
 
@@ -112,8 +112,11 @@
             clientes();
 
         }
+        var i = 0;
 
         function mostrarArticulos() {
+            localStorage.setItem("item", "1");
+            i = 1;
             document.getElementById("articulos").style.display = "block";
 
             document.getElementById("micuenta").style.display = "none";
@@ -124,8 +127,7 @@
             document.getElementById("edicioncliente").style.display = "none";
             document.getElementById("pedidos").style.display = "none";
             document.getElementById("usuarios").style.display = "none";
-            articulos();
-            refreshArticulos();
+            articulo();
         }
 
         function mostrarPedidos() {
@@ -155,6 +157,14 @@
             document.getElementById("pedidos").style.display = "none";
             usuarios();
             refreshUsuarios();
+        }
+
+        window.onload = function () {
+            if (this.localStorage.getItem("item") == "1") {
+                mostrarArticulos();
+                this.localStorage.clear();
+            }
+            
         }
 
         function nuevoUsuario() {
@@ -292,7 +302,22 @@
                 document.getElementById("lnkLimpiarFotos").click();
                 
             } else {
-                alert("Edicion");
+                document.getElementById("hdNombreArticulo").value = document.getElementById("txtNombreArticulo").value;
+                document.getElementById("hdIdArticulo").value = document.getElementById("txtIdArticulo").value;
+                document.getElementById("hdDescripcionArticulo").value = document.getElementById("txtDescripcionArticulo").value;
+                document.getElementById("hdStock").value = document.getElementById("txtStock").value;
+                document.getElementById("hdOtro").value = document.getElementById("txtOtro").value;
+
+                document.getElementById("lnkActualizarArticuloExistente").click();
+
+                document.getElementById("articulos").style.display = "block";
+                document.getElementById("edicionarticulo").style.display = "none";
+
+                document.getElementById("txtIdArticulo").value = "";
+                document.getElementById("txtNombreArticulo").value = "";
+                document.getElementById("txtDescripcionArticulo").value = "";
+                document.getElementById("txtStock").value = "";
+                document.getElementById("txtOtro").value = "";
             }
             
         }
@@ -655,7 +680,7 @@
                 });
             };
 
-            articulos = function () {
+            articulo = function () {
                 tablaArticulos = $('#tblArticulos').DataTable({
                     ajax: {
                         url: '<%= ResolveUrl("panel_administrador.aspx/obtenerArticulos") %>',
@@ -1159,6 +1184,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
+                                <asp:Button runat="server" ID="btnActArt" OnClick="lnkActualizarArticuloExistente_Click"/>
                                 <input type="button" class="btn btn-primary btn-lg" onclick="actualizarArticulo()" value="Guardar" />
                                 <input type="button" class="btn btn-primary btn-lg" onclick="cancelarArticulo()" value="Cancelar" />
                             </div>
@@ -1276,6 +1302,7 @@
                 <asp:LinkButton runat="server" ID="lnkActualizarCliente" ClientIDMode="Static" OnClick="lnkActualizarCliente_Click"></asp:LinkButton>
                  <asp:LinkButton runat="server" ID="lnkActualizarArticulo" ClientIDMode="Static" OnClick="lnkActualizarArticulo_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkLimpiarFotos" ClientIDMode="Static" OnClick="lnkLimpiarFotos_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkActualizarArticuloExistente" ClientIDMode="Static" OnClick="lnkActualizarArticuloExistente_Click"></asp:LinkButton>
                 
                 
                  <asp:HiddenField runat="server" ID="hdIdUsuario" ClientIDMode="Static" value=""/>
@@ -1294,6 +1321,7 @@
                 <asp:HiddenField runat="server" ID="hdCorreoCliente" ClientIDMode="Static" value=""/>
                  <asp:HiddenField runat="server" ID="hdNITCliente" ClientIDMode="Static" value=""/>
 
+                 <asp:HiddenField runat="server" ID="hdIdArticulo" ClientIDMode="Static" value=""/>
                 <asp:HiddenField runat="server" ID="hdNombreArticulo" ClientIDMode="Static" value=""/>
                 <asp:HiddenField runat="server" ID="hdDescripcionArticulo" ClientIDMode="Static" value=""/>
                  <asp:HiddenField runat="server" ID="hdStock" ClientIDMode="Static" value=""/>
@@ -1304,13 +1332,10 @@
             </ContentTemplate>
             <Triggers>
                <asp:PostBackTrigger ControlID="lnkActualizarArticulo" />
+                <asp:PostBackTrigger ControlID="lnkActualizarArticuloExistente" />
             </Triggers>
         </asp:UpdatePanel>
     </form>
-
-    <script type="text/javascript">
-
-    </script>
 
 </body>
 </html>

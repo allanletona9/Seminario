@@ -91,5 +91,38 @@ namespace Datos
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static bool actualizar_articulo(conexion_entidad cn_conexion, producto eProducto)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+
+            string sArticulo = "UPDATE ARTICULO SET nombre = '"+eProducto.nombre+"', descripcion = '"+ eProducto.descripcion + "', ruta_imagen = '"+ eProducto.ruta + "', stock = '"+ eProducto.stock + "', otro = '"+ eProducto.otro+ "', estado = '"+ eProducto.estado+ "' " +
+                "WHERE idARTICULO = '"+eProducto.idarticulo+"'";
+            SqlCommand sqlUpdateArticulo = new SqlCommand(sArticulo, sqlConexion);
+
+           
+
+            sqlConexion.Open();
+            sqlUpdateArticulo.Connection = sqlConexion;
+
+            try
+            {
+                sqlUpdateArticulo.ExecuteNonQuery();
+
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }
