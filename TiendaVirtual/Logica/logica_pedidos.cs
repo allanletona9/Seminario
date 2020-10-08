@@ -22,5 +22,29 @@ namespace Logica
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static DataTable obtenerPedidoIndividual(conexion_entidad cn_conexion, pedidos ped)
+        {
+            try
+            {
+                return datos_pedidos.obtenerPedidoIndividual(cn_conexion, ped);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+        public static bool actualizar_pedido(conexion_entidad cn_conexion, pedidos ped)
+        {
+            try
+            {
+                return datos_pedidos.actualizar_pedido(cn_conexion, ped);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }
