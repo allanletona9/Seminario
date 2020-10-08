@@ -35,5 +35,62 @@ namespace Datos
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+        public static DataTable obtenerPedidoIndividual(conexion_entidad cn_conexion, pedidos ped)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+
+            string sPedido = "SELECT * FROM PEDIDO WHERE idPEDIDO = '"+ped.idpedido+"' ";
+            SqlCommand sqlPedido = new SqlCommand(sPedido, sqlConexion);
+
+            try
+            {
+                DataTable dtPed = new DataTable("obtiene_articulos");
+                SqlDataAdapter sqlPedidos = new SqlDataAdapter();
+                sqlPedidos.SelectCommand = sqlPedido;
+                sqlPedidos.Fill(dtPed);
+
+                sqlConexion.Close();
+
+                return dtPed;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+        public static bool actualizar_pedido(conexion_entidad cn_conexion, pedidos ped)
+        {
+            SqlConnection sqlConexion = new SqlConnection("server = " + cn_conexion.server + ";database=" + cn_conexion.database + ";Integrated Security=True");
+
+           
+
+            string sPedido = "UPDATE PEDIDO SET estado = '"+ped.estado+"' where idPEDIDO = '"+ped.idpedido+"'";
+            SqlCommand sqlUpdatePedido = new SqlCommand(sPedido, sqlConexion);
+
+            sqlConexion.Open();
+            sqlUpdatePedido.Connection = sqlConexion;
+
+            try
+            {
+                sqlUpdatePedido.ExecuteNonQuery();
+
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (sqlConexion.State == ConnectionState.Open)
+                {
+                    sqlConexion.Close();
+                }
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
     }
 }

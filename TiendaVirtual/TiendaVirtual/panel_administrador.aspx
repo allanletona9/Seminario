@@ -205,6 +205,13 @@
             document.getElementById("edicionarticulo").style.display = "none";
             refreshArticulos();
         }
+
+        function cancelarPedido() {
+            document.getElementById("pedidos").style.display = "block";
+            document.getElementById("edicionPedido").style.display = "none";
+            refreshArticulos();
+        }
+
         function guardarUsuario() {
             if (identificador_usuario == 0) {
                 document.getElementById("hdNombreUsuario").value = document.getElementById("txtNombreUsuario").value;
@@ -322,6 +329,17 @@
             
         }
 
+        function actualizarPedido() {
+            document.getElementById("hdIdPedido").value = document.getElementById("txtIDpedido").value;
+            document.getElementById("lnkActualizarPedido").click();
+
+            document.getElementById("txtIDpedido").value = "";
+            document.getElementById("txtFechaPedido").value = "";
+            document.getElementById("txtNombrePedido").value = "";
+            document.getElementById("txtDireccionPedido").value = "";
+            
+        }
+
 
         function showimagepreview(input) {
             document.getElementById("imagen_cargada").style.display = "block";
@@ -331,6 +349,41 @@
                     document.getElementsByTagName("img")[0].setAttribute("src", e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function editarPedido(id) {
+            document.getElementById("pedidos").style.display = "none";
+            document.getElementById("edicionPedido").style.display = "block";
+
+            try {
+                $.ajax({
+                    url: '<%= ResolveUrl("panel_administrador.aspx/obtenerPedidoIndividual") %>',
+                    method: 'post',
+                    contentType: "application/json",
+                    dataType: "json",
+                    async: false,
+                    data: '{"idpedido":"' + id + '"'
+                        + '}',
+                    success: function (data) {
+
+                        if (data.d) {
+                            console.log(data.d);
+                            var ped = $.parseJSON(data.d);
+                            console.log(ped);
+                            //console.log(user[0].nombre);
+                            document.getElementById("txtIDpedido").value = ped[0].idPEDIDO;
+                            document.getElementById("txtFechaPedido").value = ped[0].fechaPedido;
+                            document.getElementById("txtNombrePedido").value = ped[0].nombre;
+                            document.getElementById("txtDireccionPedido").value = ped[0].direccion;
+                        }
+                    },
+                    error: function (err) {
+                        console.error(err);
+                    }
+                });
+            } catch (error) {
+                console.error(error);
             }
         }
         
@@ -831,7 +884,7 @@
                             targets: [1],
                             orderable: false,
                             title: "No. Pedido",
-                            width: "20%",
+                            width: "5%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.idPEDIDO + "</span>";
                             },
@@ -841,7 +894,7 @@
                             targets: [2],
                             orderable: false,
                             title: "Fecha Pedido",
-                            width: "20%",
+                            width: "15%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.fechaPedido + "</span>";
                             },
@@ -850,7 +903,7 @@
                             "targets": [3],
                             orderable: false,
                             title: "Nombre",
-                            width: "10%",
+                            width: "20%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.nombre + "</span>";
                             },
@@ -859,7 +912,7 @@
                             "targets": [4],
                             orderable: false,
                             title: "Direccion",
-                            width: "10%",
+                            width: "30%",
                             render: function (data, type, row, meta) {
                                 return "<span>" + row.direccion + "</span>";
                             },
@@ -870,11 +923,11 @@
 
                             width: "10%",
                             render: function (data, type, row, meta) {
-                                return "<span><a href='#'>Editar</a></span>";
+                                return "<span><a href='#' onclick='editarPedido(" + row.idPEDIDO + ")'>Editar</a></span>";
                             },
                         },
                         {
-                            targets: [1, 2, 3, 4],
+                            targets: [1, 2, 3, 4,5],
                             visible: true,
                         },
                         {
@@ -1148,9 +1201,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label>Categoria</label>
-                                  <asp:DropDownList runat="server" ID="dpCategorias" CssClass="form-control">
-                                </asp:DropDownList>
+                               
                             </div>
                         </div>
 
@@ -1169,10 +1220,24 @@
                         </div>
 
                          <div class="form-group">
-                            <div class="col-md-12">
-                                <label>Stock</label>
-                                   <input type="text" id="txtStock" class="form-control" placeholder="Stock"/>
+                            <div class="col-md-12" >
+                                <table>
+                                    <tr>
+                                        <td style="width:80%">
+                                             <label>Categoria</label>
+                                  <asp:DropDownList runat="server" ID="dpCategorias" CssClass="form-control">
+                                </asp:DropDownList>
+                                        </td>
+                                        <td style="width:100%">
+                                            <label>Stock</label>
+                                   <input type="text" id="txtStock" class="form-control" placeholder="Stock" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                
                             </div>
+
                         </div>
                          <div class="form-group">
                             <div class="col-md-12">
@@ -1245,14 +1310,14 @@
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label>Telefono</label>
-                                <input type="password" id="txtTelefonoCliente" class="form-control" placeholder="Telefono"/>
+                                <input type="text" id="txtTelefonoCliente" class="form-control" placeholder="Telefono"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label>Identificacion</label>
-                                <input type="password" id="txtIdentificacionCliente" class="form-control" placeholder="Identificacion"/>
+                                <input type="text" id="txtIdentificacionCliente" class="form-control" placeholder="Identificacion"/>
                             </div>
                         </div>
 
@@ -1267,7 +1332,7 @@
                          <div class="form-group">
                             <div class="col-md-12">
                                 <label>NIT</label>
-                                <input type="password" id="txtNitCliente" class="form-control" placeholder="NIT"/>
+                                <input type="text" id="txtNitCliente" class="form-control" placeholder="NIT"/>
                             </div>
                         </div>
 
@@ -1294,6 +1359,81 @@
 </div></div>
 
                 </div>
+
+
+                  <div class="padre" style="display:none" id="edicionPedido">
+                  <div class="hijo">                    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                    <fieldset>
+                        <h1><legend class="text-center header">Control del Pedido</legend></h1>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>ID Pedido</label>
+                                <input type="text" id="txtIDpedido" class="form-control" placeholder="ID Pedido" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Fecha de Pedido</label>
+                                <input type="text" id="txtFechaPedido" class="form-control" placeholder="Fecha de Pedido" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Descripcion del pedido</label>
+                                   <input type="text" id="txtNombrePedido" class="form-control" placeholder="Descripcion" disabled/>
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <div class="col-md-12">
+                                <label>Direccion del pedido</label>
+                                   <input type="text" id="txtDireccionPedido" class="form-control" placeholder="Direccion" disabled/>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-group" >
+                            <div class="col-md-12" style="font-size:large; border:1px solid #36A0FF" >
+                                <center>
+                                    <br />
+                                <div >Estado</div>
+                                <br />
+                                
+                                <asp:RadioButton runat="server"  ID="rdbPendiente"  GroupName="estados" Font-Size="Large"/>
+                                &nbsp; Pendiente&nbsp;&nbsp;&nbsp;
+                                <asp:RadioButton runat="server"  ID="rdbEnproceso"  GroupName="estados" Font-Size="Large"/>
+                                &nbsp; En Proceso&nbsp;&nbsp;&nbsp;
+                                <asp:RadioButton runat="server"  ID="rdbFinalizado" GroupName="estados" Font-Size="Large"/>
+
+                                &nbsp; Finalizado&nbsp;&nbsp;
+                                     <br /><br />
+                                    </center>
+                            </div>
+                           
+                        </div>
+                        <br /><br />
+                    
+
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <input type="button" class="btn btn-primary btn-lg" onclick="actualizarPedido()" value="Actualizar" />
+      <%--                          <asp:Button runat="server" ID="btnRegistrarUser" Text="Guardar" CssClass="btn btn-primary btn-lg" OnClick="btnRegistrarUser_Click" OnClientClick="cancelarUsuario()"/>--%>
+                                <input type="button" class="btn btn-primary btn-lg" onclick="cancelarPedido()" value="Cancelar" />
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</div></div>
+
+                </div>
+
                 <%--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--%>
             </div>
@@ -1312,6 +1452,8 @@
                  <asp:LinkButton runat="server" ID="lnkActualizarArticulo" ClientIDMode="Static" OnClick="lnkActualizarArticulo_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkLimpiarFotos" ClientIDMode="Static" OnClick="lnkLimpiarFotos_Click"></asp:LinkButton>
                 <asp:LinkButton runat="server" ID="lnkActualizarArticuloExistente" ClientIDMode="Static" OnClick="lnkActualizarArticuloExistente_Click"></asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lnkActualizarPedido" ClientIDMode="Static" OnClick="lnkActualizarPedido_Click"></asp:LinkButton>
+
                 
                 
                  <asp:HiddenField runat="server" ID="hdIdUsuario" ClientIDMode="Static" value=""/>
@@ -1336,6 +1478,7 @@
                  <asp:HiddenField runat="server" ID="hdStock" ClientIDMode="Static" value=""/>
                 <asp:HiddenField runat="server" ID="hdOtro" ClientIDMode="Static" value=""/>
 
+                <asp:HiddenField runat="server" ID="hdIdPedido" ClientIDMode="Static" value=""/>
 
 
             </ContentTemplate>

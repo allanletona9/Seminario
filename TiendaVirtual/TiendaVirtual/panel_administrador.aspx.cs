@@ -227,6 +227,54 @@ namespace TiendaVirtual
 
         }
 
+        
+
+        [WebMethod]
+        public static string obtenerPedidoIndividual(string idpedido)
+        {
+
+            try
+            {
+                conexion_entidad cn = new conexion_entidad();
+
+
+
+                string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+                string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+                cn.database = database;
+                cn.server = server;
+
+                pedidos ped = new pedidos();
+                ped.idpedido = idpedido;
+
+                DataTable dt = logica_pedidos.obtenerPedidoIndividual(cn, ped);
+
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row = null;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName, dr[col]);
+                    }
+                    rows.Add(row);
+                }
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(rows);
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+                return null;
+            }
+
+        }
+
         [WebMethod]
         public static string obtenerArticuloIndividual(string idarticulo)
         {
@@ -684,6 +732,35 @@ namespace TiendaVirtual
 
 
             }
+        }
+
+        protected void lnkActualizarPedido_Click(object sender, EventArgs e)
+        {
+            conexion_entidad cn = new conexion_entidad();
+            pedidos ped = new pedidos();
+
+            string database = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvbd"]);
+            string server = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["tdvsrv"]);
+            cn.database = database;
+            cn.server = server;
+
+            ped.idpedido = hdIdPedido.Value;
+
+            if (rdbPendiente.Checked)
+                ped.estado = "Pendiente";
+            else if (rdbEnproceso.Checked)
+                ped.estado = "En proceso";
+            else
+                ped.estado = "Finalizado";
+
+            bool update = logica_pedidos.actualizar_pedido(cn, ped);
+
+            if (update) {
+                string javaScript = "mostrarPedidos();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+            }
+
+            
         }
     }
 }
