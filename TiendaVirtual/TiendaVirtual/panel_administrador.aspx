@@ -372,10 +372,22 @@
                             var ped = $.parseJSON(data.d);
                             console.log(ped);
                             //console.log(user[0].nombre);
+                            var fecha = new Date(parseInt(ped[0].fechaPedido.replace("/Date(", "").replace(")/", ""), 10))
                             document.getElementById("txtIDpedido").value = ped[0].idPEDIDO;
-                            document.getElementById("txtFechaPedido").value = ped[0].fechaPedido;
+                            document.getElementById("txtFechaPedido").value = fecha;
                             document.getElementById("txtNombrePedido").value = ped[0].nombre;
                             document.getElementById("txtDireccionPedido").value = ped[0].direccion;
+                            var r1 = document.getElementById("rdbPendiente");
+                            var r2 = document.getElementById("rdbEnProceso");
+                            var r3 = document.getElementById("rdbFinalizado");
+                            if (ped[0].estado == "Pendiente" || ped[0].estado == "pendiente") {
+                                r1.checked = true;
+                            } else if (ped[0].estado == "En proceso" || ped[0].estado == "en proceso") {
+                                r2.checked = true;
+                            } else{
+                                r3.checked = true;
+                            }
+
                         }
                     },
                     error: function (err) {
@@ -896,7 +908,9 @@
                             title: "Fecha Pedido",
                             width: "15%",
                             render: function (data, type, row, meta) {
-                                return "<span>" + row.fechaPedido + "</span>";
+                                var fecha = new Date(parseInt(row.fechaPedido.replace("/Date(", "").replace(")/", ""), 10))
+                                
+                                return "<span>" + fecha  + "</span>";
                             },
                         },
                         {
