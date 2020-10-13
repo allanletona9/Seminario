@@ -25,23 +25,18 @@
 
 	<header class="header">
 		<div class="header_inner d-flex flex-row align-items-center justify-content-start">
-			<div class="logo"><a href="#">Wish</a></div>
+			<div class="logo"><a href="#">ARCADIA SPORTSWEAR</a></div>
 			<nav class="main_nav">
 				<ul>
-					<li><a href="#">home</a></li>
-					<li><a href="categorias.aspx">clothes</a></li>
-					<li><a href="categorias.aspx">accessories</a></li>
-					<li><a href="categorias.aspx">lingerie</a></li>
-					<li><a href="contacto.aspx">contact</a></li>
+					<li><a href="#">INICIO</a></li>
+					<li><a href="categorias.aspx">LINEAS</a></li>
+					<li><a href="categorias.aspx">PATINAJE</a></li>
+					<li><a href="categorias.aspx">COLECCION GT</a></li>
+					
 				</ul>
 			</nav>
 			<div class="header_content ml-auto">
-				<div class="search header_search">
-					<form action="#">
-						<input type="search" class="search_input" required="required">
-						<button type="submit" id="search_button" class="search_button"><img src="images/magnifying-glass.svg" alt=""></button>
-					</form>
-				</div>
+				
 				<div class="shopping">
 					<!-- Cart -->
 					<a href="#">
@@ -66,7 +61,7 @@
 						</div>
 					</a>
 					<!-- Avatar -->
-					<a href="#">
+					<a href="login.aspx">
 						<div class="avatar">
 							<img src="images/avatar.svg" alt="">
 						</div>
@@ -82,7 +77,7 @@
 
 	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
 		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
-		<div class="logo menu_mm"><a href="#">Wish</a></div>
+		<div class="logo menu_mm"><a href="#">ARCADIA SPORTWEAR</a></div>
 		<div class="search">
 			<form action="#">
 				<input type="search" class="search_input menu_mm" required="required">
@@ -91,11 +86,11 @@
 		</div>
 		<nav class="menu_nav">
 			<ul class="menu_mm">
-				<li class="menu_mm"><a href="#">home</a></li>
-				<li class="menu_mm"><a href="#">clothes</a></li>
-				<li class="menu_mm"><a href="#">accessories</a></li>
-				<li class="menu_mm"><a href="#">lingerie</a></li>
-				<li class="menu_mm"><a href="#">contact</a></li>
+				<li class="menu_mm"><a href="#">Inicio</a></li>
+				<li class="menu_mm"><a href="#">Lineas</a></li>
+				<li class="menu_mm"><a href="#">Patinaje</a></li>
+				<li class="menu_mm"><a href="#">Collecion GT</a></li>
+				<li class="menu_mm"><a href="#">Contacto</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -115,7 +110,7 @@
 					<div class="home_slider_content">
 						<div class="home_slider_content_inner">
 							<div class="home_slider_subtitle">Promo Prices</div>
-							<div class="home_slider_title">New Collection</div>
+							<div class="home_slider_title">Nueva Colección</div>
 						</div>	
 					</div>
 				</div>
@@ -125,8 +120,8 @@
 					<div class="home_slider_background" style="background-image:url(images/home_slider_1.jpg)"></div>
 					<div class="home_slider_content">
 						<div class="home_slider_content_inner">
-							<div class="home_slider_subtitle">Promo Prices</div>
-							<div class="home_slider_title">New Collection</div>
+							<div class="home_slider_subtitle">Promociones</div>
+							<div class="home_slider_title">Nueva Colección</div>
 						</div>	
 					</div>
 				</div>
@@ -136,8 +131,8 @@
 					<div class="home_slider_background" style="background-image:url(images/home_slider_1.jpg)"></div>
 					<div class="home_slider_content">
 						<div class="home_slider_content_inner">
-							<div class="home_slider_subtitle">Promo Prices</div>
-							<div class="home_slider_title">New Collection</div>
+							<div class="home_slider_subtitle">Promocion de Octubre</div>
+							<div class="home_slider_title">Collecion Invierno</div>
 						</div>	
 					</div>
 				</div>
@@ -175,8 +170,8 @@
 			<div class="row">
 				<div class="col">
 					<div class="section_title_container text-center">
-						<div class="section_subtitle">only the best</div>
-						<div class="section_title">promo prices</div>
+						
+						<div class="section_title">Promociones</div>
 					</div>
 				</div>
 			</div>
@@ -188,11 +183,10 @@
 						<div class="promo_image">
 							<img src="images/promo_1.jpg" alt="">
 							<div class="promo_content promo_content_1">
-								<div class="promo_title">-30% off</div>
-								<div class="promo_subtitle">on all bags</div>
+								
 							</div>
 						</div>
-						<div class="promo_link"><a href="#">Shop Now</a></div>
+						<div class="promo_link"><a href="#">Comprar Ahora</a></div>
 					</div>
 				</div>
 
@@ -202,11 +196,11 @@
 						<div class="promo_image">
 							<img src="images/promo_2.jpg" alt="">
 							<div class="promo_content promo_content_2">
-								<div class="promo_title">-30% off</div>
+								<div class="promo_title">-15% menos</div>
 								<div class="promo_subtitle">coats & jackets</div>
 							</div>
 						</div>
-						<div class="promo_link"><a href="#">Shop Now</a></div>
+						<div class="promo_link"><a href="#">Comprar Ahora</a></div>
 					</div>
 				</div>
 
@@ -216,11 +210,11 @@
 						<div class="promo_image">
 							<img src="images/promo_3.jpg" alt="">
 							<div class="promo_content promo_content_3">
-								<div class="promo_title">-25% off</div>
-								<div class="promo_subtitle">on Sandals</div>
+							
+								
 							</div>
 						</div>
-						<div class="promo_link"><a href="#">Shop Now</a></div>
+						<div class="promo_link"><a href="#">Comprar Ahora</a></div>
 					</div>
 				</div>
 
@@ -235,8 +229,8 @@
 			<div class="row">
 				<div class="col">
 					<div class="section_title_container text-center">
-						<div class="section_subtitle">only the best</div>
-						<div class="section_title">new arrivals</div>
+						<div class="section_subtitle">Solo lo Mejor</div>
+						<div class="section_title">Nuevos Diseños</div>
 					</div>
 				</div>
 			</div>
@@ -257,8 +251,8 @@
 						</div>
 						<div class="product_content clearfix">
 							<div class="product_info">
-								<div class="product_name"><a href="product.html">Woman's Long Dress</a></div>
-								<div class="product_price">$45.00</div>
+								<div class="product_name"><a href="product.html">Patinaje</a></div>
+								<div class="product_price">Q. 345.00</div>
 							</div>
 							<div class="product_options">
 								<div class="product_buy product_option"><img src="images/shopping-bag-white.svg" alt=""></div>
@@ -283,8 +277,8 @@
 						</div>
 						<div class="product_content clearfix">
 							<div class="product_info">
-								<div class="product_name"><a href="product.html">2 Piece Swimsuit</a></div>
-								<div class="product_price">$35.00</div>
+								<div class="product_name"><a href="product.html">Lineas</a></div>
+								<div class="product_price">Q. 235.00</div>
 							</div>
 							<div class="product_options">
 								<div class="product_buy product_option"><img src="images/shopping-bag-white.svg" alt=""></div>
@@ -309,8 +303,8 @@
 						</div>
 						<div class="product_content clearfix">
 							<div class="product_info">
-								<div class="product_name"><a href="product.html">Man Blue Jacket</a></div>
-								<div class="product_price">$145.00</div>
+								<div class="product_name"><a href="product.html">Colección GT</a></div>
+								<div class="product_price">Q. 445.00</div>
 							</div>
 							<div class="product_options">
 								<div class="product_buy product_option"><img src="images/shopping-bag-white.svg" alt=""></div>
@@ -352,157 +346,8 @@
 
 	<!-- Gallery -->
 
-	<div class="gallery">
-		<div class="gallery_image" style="background-image:url(images/gallery.jpg)"></div>
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="gallery_title text-center">
-						<ul>
-							<li><a href="#">#wish</a></li>
-							<li><a href="#">#wishinstagram</a></li>
-							<li><a href="#">#wishgirl</a></li>
-						</ul>
-					</div>
-					<div class="gallery_text text-center">*Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra.</div>
-					<div class="button gallery_button"><a href="#">submit</a></div>
-				</div>
-			</div>
-		</div>	
-		<div class="gallery_slider_container">
-			
-			<!-- Gallery Slider -->
-			<div class="owl-carousel owl-theme gallery_slider">
-				
-				<!-- Gallery Item -->
-				<div class="owl-item gallery_item">
-					<a class="colorbox" href="images/gallery_1.jpg">
-						<img src="images/gallery_1.jpg" alt="">
-					</a>
-				</div>
+	
 
-				<!-- Gallery Item -->
-				<div class="owl-item gallery_item">
-					<a class="colorbox" href="images/gallery_2.jpg">
-						<img src="images/gallery_2.jpg" alt="">
-					</a>
-				</div>
-
-				<!-- Gallery Item -->
-				<div class="owl-item gallery_item">
-					<a class="colorbox" href="images/gallery_3.jpg">
-						<img src="images/gallery_3.jpg" alt="">
-					</a>
-				</div>
-
-				<!-- Gallery Item -->
-				<div class="owl-item gallery_item">
-					<a class="colorbox" href="images/gallery_4.jpg">
-						<img src="images/gallery_4.jpg" alt="">
-					</a>
-				</div>
-
-				<!-- Gallery Item -->
-				<div class="owl-item gallery_item">
-					<a class="colorbox" href="images/gallery_5.jpg">
-						<img src="images/gallery_5.jpg" alt="">
-					</a>
-				</div>
-
-				<!-- Gallery Item -->
-				<div class="owl-item gallery_item">
-					<a class="colorbox" href="images/gallery_6.jpg">
-						<img src="images/gallery_6.jpg" alt="">
-					</a>
-				</div>
-
-			</div>
-		</div>	
-	</div>
-
-	<!-- Testimonials -->
-
-	<div class="testimonials">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<div class="section_subtitle">only the best</div>
-						<div class="section_title">testimonials</div>
-					</div>
-				</div>
-			</div>
-			<div class="row test_slider_container">
-				<div class="col">
-
-					<!-- Testimonials Slider -->
-					<div class="owl-carousel owl-theme test_slider text-center">
-
-						<!-- Testimonial Item -->
-						<div class="owl-item">
-							<div class="test_text">“Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra nec. Fusce vel lorem libero. Integer ex mi, facilisis sed nisi ut, vestibulum ultrices nulla. Aliquam egestas tempor leo.”</div>
-							<div class="test_content">
-								<div class="test_image"><img src="images/testimonials.jpg" alt=""></div>
-								<div class="test_name">Christinne Smith</div>
-								<div class="test_title">client</div>
-							</div>
-						</div>
-
-						<!-- Testimonial Item -->
-						<div class="owl-item">
-							<div class="test_text">“Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra nec. Fusce vel lorem libero. Integer ex mi, facilisis sed nisi ut, vestibulum ultrices nulla. Aliquam egestas tempor leo.”</div>
-							<div class="test_content">
-								<div class="test_image"><img src="images/testimonials.jpg" alt=""></div>
-								<div class="test_name">Christinne Smith</div>
-								<div class="test_title">client</div>
-							</div>
-						</div>
-
-						<!-- Testimonial Item -->
-						<div class="owl-item">
-							<div class="test_text">“Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra nec. Fusce vel lorem libero. Integer ex mi, facilisis sed nisi ut, vestibulum ultrices nulla. Aliquam egestas tempor leo.”</div>
-							<div class="test_content">
-								<div class="test_image"><img src="images/testimonials.jpg" alt=""></div>
-								<div class="test_name">Christinne Smith</div>
-								<div class="test_title">client</div>
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Newsletter -->
-
-	<div class="newsletter">
-		<div class="newsletter_content">
-			<div class="newsletter_image" style="background-image:url(images/newsletter.jpg)"></div>
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="section_title_container text-center">
-							<div class="section_subtitle">only the best</div>
-							<div class="section_title">subscribe for a 20% discount</div>
-						</div>
-					</div>
-				</div>
-				<div class="row newsletter_container">
-					<div class="col-lg-10 offset-lg-1">
-						<div class="newsletter_form_container">
-							<form action="#">
-								<input type="email" class="newsletter_input" required="required" placeholder="E-mail here">
-								<button type="submit" class="newsletter_button">subscribe</button>
-							</form>
-						</div>
-						<div class="newsletter_text">Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra nec. Fusce vel lorem libero. Integer ex mi, facilisis sed nisi ut, vestib ulum ultrices nulla. Aliquam egestas tempor leo.</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<!-- Footer -->
 
@@ -510,7 +355,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="footer_logo"><a href="#">Wish</a></div>
+					<div class="footer_logo"><a href="#">ARCADIA SPORTWEAR</a></div>
 					<nav class="footer_nav">
 						<ul>
 							<li><a href="index.html">home</a></li>
